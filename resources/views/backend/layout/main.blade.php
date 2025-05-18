@@ -276,7 +276,8 @@
                                 </h6>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="{{ asset('assets/img/undraw_profile_1.svg') }}" alt="...">
+                                        <img class="rounded-circle" src="{{ asset('assets/img/undraw_profile_1.svg') }}"
+                                            alt="...">
                                         <div class="status-indicator bg-success"></div>
                                     </div>
                                     <div class="font-weight-bold">
@@ -287,7 +288,8 @@
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="{{ asset('assets/img/undraw_profile_2.svg') }}" alt="...">
+                                        <img class="rounded-circle" src="{{ asset('assets/img/undraw_profile_2.svg') }}"
+                                            alt="...">
                                         <div class="status-indicator"></div>
                                     </div>
                                     <div>
@@ -298,7 +300,8 @@
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="{{ asset('assets/img/undraw_profile_3.svg') }}" alt="...">
+                                        <img class="rounded-circle" src="{{ asset('assets/img/undraw_profile_3.svg') }}"
+                                            alt="...">
                                         <div class="status-indicator bg-warning"></div>
                                     </div>
                                     <div>
@@ -330,7 +333,8 @@
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
-                                <img class="img-profile rounded-circle" src="{{ asset('assets/img/undraw_profile.svg') }}">
+                                <img class="img-profile rounded-circle"
+                                    src="{{ asset('assets/img/undraw_profile.svg') }}">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -422,6 +426,44 @@
     <!-- Page level custom scripts -->
     <script src="{{ asset('assets/js/demo/chart-area-demo.js') }}"></script>
     <script src="{{ asset('assets/js/demo/chart-pie-demo.js') }}"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/ckeditor5-classic-plus@41.3.0/build/ckeditor.min.js"></script>
+
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#editor'))
+            .then(editor => {
+                console.log(editor);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+
+    <script>
+        function showPreview(image, idPreview) {
+            var pic = image.files;
+            for (var i = 0; i < pic.length; i++) {
+                var picPreview = pic[i];
+                var imageType = /image.*/;
+                var preview = document.getElementById(idPreview);
+                var fileReader = new FileReader();
+
+                if (picPreview.type.match(imageType)) {
+                    preview.file = picPreview;
+                    fileReader.onload = (function (preview) {
+                        return function (e) {
+                            preview.src = e.target.result;
+                            preview.style.display = "block";
+                        };
+                    })(preview);
+                    fileReader.readAsDataURL(picPreview);
+                } else {
+                    alert("File yang dipilih bukan gambar.");
+                }
+            }
+        }
+    </script>
 
 </body>
 

@@ -28,7 +28,7 @@ class CategoryController extends Controller
             $category->save();
             return redirect(route('category.index'))->with('pesan', ['success', 'Kategori berhasil ditambahkan']);
         } catch (\Exception $e) {
-            return redirect(route('category.adding'))->with('pesan', ['danger', 'Kategori gagal ditambahkan']);
+            return redirect(route('category.index'))->with('pesan', ['danger', 'Kategori gagal ditambahkan']);
         }
     }
 
@@ -50,7 +50,7 @@ class CategoryController extends Controller
             $category->save();
             return redirect(route('category.index'))->with('pesan', ['success', 'Kategori berhasil diperbarui']);
         } catch (\Exception $e) {
-            return redirect(route('category.adding'))->with('pesan', ['danger', 'Kategori gagal diperbarui']);
+            return redirect(route('category.index'))->with('pesan', ['danger', 'Kategori gagal diperbarui']);
         }
     }
 
@@ -61,7 +61,7 @@ class CategoryController extends Controller
             $category->delete();
             return redirect(route('category.index'))->with('pesan', ['success', 'Kategori berhasil dihapus']);
         } catch (\Exception $e) {
-            return redirect(route('category.adding'))->with('pesan', ['danger', 'Kategori gagal dihapus']);
+            return redirect(route('category.index'))->with('pesan', ['danger', 'Kategori gagal dihapus']);
         }
     }
 }

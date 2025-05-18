@@ -25,5 +25,12 @@ class DatabaseSeeder extends Seeder
         DB::table('category')->insert([
             'nameCategory' => 'Politik',
         ]);
+
+        DB::table('news')->insert([
+            'newsTitle' => 'Berita Politik',
+            'newsContent' => 'Berita tentang politik',
+            'newsImage' => 'berita_politik.jpg',
+            'idCategory' => 1,
+        ]);
     }
 }
