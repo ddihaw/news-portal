@@ -23,6 +23,7 @@ Route::group(['middleware' => 'auth:user'], function () {
         Route::get('/category/modify/{id}', [App\Http\Controllers\CategoryController::class, 'modify'])->name('category.modify');
         Route::post('/category/modifyProcess', [App\Http\Controllers\CategoryController::class, 'modifyProcess'])->name('category.modifyProcess');
         Route::get('/category/delete/{id}', [App\Http\Controllers\CategoryController::class, 'delete'])->name('category.delete');
+        Route::get('category/export', [App\Http\Controllers\CategoryController::class, 'export'])->name('category.export');
 
         Route::get('/news', [App\Http\Controllers\NewsController::class, 'index'])->name('news.index');
         Route::get('/news/adding', [App\Http\Controllers\NewsController::class, 'adding'])->name('news.adding');
@@ -30,6 +31,7 @@ Route::group(['middleware' => 'auth:user'], function () {
         Route::get('/news/modify/{id}', [App\Http\Controllers\NewsController::class, 'modify'])->name('news.modify');
         Route::post('/news/modifyProcess', [App\Http\Controllers\NewsController::class, 'modifyProcess'])->name('news.modifyProcess');
         Route::get('/news/delete/{id}', [App\Http\Controllers\NewsController::class, 'delete'])->name('news.delete');
+        Route::get('/news/export', [App\Http\Controllers\NewsController::class, 'export'])->name('news.export');
     });
 
     Route::get('/logout', [\App\Http\Controllers\AuthController::class, 'logout'])->name('auth.logout');

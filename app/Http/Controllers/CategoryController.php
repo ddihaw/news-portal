@@ -4,19 +4,23 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Category;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class CategoryController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $category = Category::all();
         return view('backend.content.category.list', compact('category'));
     }
 
-    public function adding() {
+    public function adding()
+    {
         return view('backend.content.category.addingForm');
     }
 
-    public function addingProcess(Request $request) {
+    public function addingProcess(Request $request)
+    {
         $request->validate([
             'nameCategory' => 'required'
         ]);
@@ -32,12 +36,14 @@ class CategoryController extends Controller
         }
     }
 
-    public function modify($id) {
-            $category = Category::findOrFail($id);
-            return view('backend.content.category.modifyForm', compact('category'));
+    public function modify($id)
+    {
+        $category = Category::findOrFail($id);
+        return view('backend.content.category.modifyForm', compact('category'));
     }
 
-    public function modifyProcess(Request $request) {
+    public function modifyProcess(Request $request)
+    {
         $request->validate([
             'idCategory' => 'required',
             'nameCategory' => 'required'
@@ -54,7 +60,8 @@ class CategoryController extends Controller
         }
     }
 
-    public function delete($id) {
+    public function delete($id)
+    {
         $category = Category::findOrFail($id);
 
         try {
@@ -63,5 +70,12 @@ class CategoryController extends Controller
         } catch (\Exception $e) {
             return redirect(route('category.index'))->with('pesan', ['danger', 'Kategori gagal dihapus']);
         }
+    }
+
+    public function export()
+    {
+        $category = Category::all();
+        $pdf = Pdf::loadView('backend.content.category.export', compact('category'));
+        return $pdf->download('category_list.pdf');
     }
 }

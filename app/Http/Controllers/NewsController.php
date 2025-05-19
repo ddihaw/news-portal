@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\News;
 use App\Models\Category;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class NewsController extends Controller
 {
@@ -122,5 +123,12 @@ class NewsController extends Controller
         } catch (\Exception $e) {
             return redirect(route('news.index'))->with('pesan', ['danger', 'Berita gagal dihapus']);
         }
+    }
+
+    public function export()
+    {
+        $news = News::all();
+        $pdf = Pdf::loadView('backend.content.news.export', compact('news'));
+        return $pdf->download('articles_list.pdf');
     }
 }

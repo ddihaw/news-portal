@@ -9,6 +9,9 @@
                 <a href="{{ route('news.adding') }}" class="btn btn-md btn-primary"><i class="fa fa-plus"></i>
                     Artikel Baru
                 </a>
+                <a href="{{ route('news.export') }}" class="btn btn-outline-primary"><i class="fa fa-file-pdf"></i>
+                    Simpan ke PDF
+                </a>
             </div>
         </div>
 
@@ -43,8 +46,8 @@
                                     <td>{{$row->newsTitle}}</td>
                                     <td>{{$row->category->nameCategory}}</td>
                                     <td>
-                                        <a href="{{ route('news.modify', $row->idNews) }}"
-                                            class="btn btn-sm btn-info"><i class="fa fa-edit"></i> Edit</a>
+                                        <a href="{{ route('news.modify', $row->idNews) }}" class="btn btn-sm btn-info"><i
+                                                class="fa fa-edit"></i> Edit</a>
                                         <a href="{{ route('news.delete', $row->idNews) }}"
                                             onclick="return confirm('Hapus Artikel Berita?')" class="btn btn-sm btn-danger"><i
                                                 class="fa fa-trash"></i> Hapus</a>

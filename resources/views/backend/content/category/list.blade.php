@@ -9,6 +9,9 @@
                 <a href="{{ route('category.adding') }}" class="btn btn-md btn-primary"><i class="fa fa-plus"></i>
                     Kategori Baru
                 </a>
+                <a href="{{ route('category.export') }}" class="btn btn-outline-primary"><i class="fa fa-file-pdf"></i>
+                    Simpan ke PDF
+                </a>
             </div>
         </div>
 
@@ -16,7 +19,7 @@
             <div class="alert alert-{{ session()->get('pesan')[0] }}">
                 {{ session()->get('pesan')[1] }}
             </div>
-            
+
         @endif
 
         <div class="card shadow mb-4">
