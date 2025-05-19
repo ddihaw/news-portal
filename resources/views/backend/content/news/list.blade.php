@@ -16,7 +16,6 @@
             <div class="alert alert-{{ session()->get('pesan')[0] }}">
                 {{ session()->get('pesan')[1] }}
             </div>
-            
         @endif
 
         <div class="card shadow mb-4">
