@@ -32,8 +32,15 @@ Route::group(['middleware' => 'auth:user'], function () {
         Route::post('/news/modifyProcess', [App\Http\Controllers\NewsController::class, 'modifyProcess'])->name('news.modifyProcess');
         Route::get('/news/delete/{id}', [App\Http\Controllers\NewsController::class, 'delete'])->name('news.delete');
         Route::get('/news/export', [App\Http\Controllers\NewsController::class, 'export'])->name('news.export');
+        
+        Route::get('/user', [App\Http\Controllers\UserController::class, 'index'])->name('user.index');
+        Route::get('/user/adding', [App\Http\Controllers\UserController::class, 'adding'])->name('user.adding');
+        Route::post('/user/addingProcess', [App\Http\Controllers\UserController::class, 'addingProcess'])->name('user.addingProcess');
+        Route::get('/user/modify/{id}', [App\Http\Controllers\UserController::class, 'modify'])->name('user.modify');
+        Route::post('/user/modifyProcess', [App\Http\Controllers\UserController::class, 'modifyProcess'])->name('user.modifyProcess');
+        Route::get('/user/delete/{id}', [App\Http\Controllers\UserController::class, 'delete'])->name('user.delete');
     });
-
+    
     Route::get('/logout', [\App\Http\Controllers\AuthController::class, 'logout'])->name('auth.logout');
 });
 
