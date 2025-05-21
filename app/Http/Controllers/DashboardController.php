@@ -3,21 +3,39 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\View;
 use Auth;
 use App\Models\User;
+use App\Models\Category;
+use App\Models\News;
 use Hash;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        return view(view: 'backend.content.dashboard');
+        $categories = Category::withCount('news')->get();
+
+        $categoryNames = $categories->pluck('nameCategory')->toArray();
+        $categoryNewsCounts = $categories->pluck('news_count')->toArray();
+        $latestNews = News::with('category')->latest()->take(5)->get();
+
+        return view('backend.content.dashboard', [
+            'categoriesTotal' => $categories->count(),
+            'newsTotal' => News::count(),
+            'usersTotal' => User::count(),
+            'categoryNames' => $categoryNames,
+            'categoryNewsCounts' => $categoryNewsCounts,
+            'latestNews' => $latestNews,
+        ]);
     }
+
+
 
     public function profile()
     {
-        return view('backend.content.profile');
+        $id = Auth::guard('user')->user()->id;
+        $users = User::findOrFail($id);
+        return view('backend.content.profile', compact('users'));
     }
 
     public function resetPassword()

@@ -6,7 +6,7 @@
                 <h1 class="h3 mb-2 text-gray-800">List Pengguna</h1>
             </div>
             <div class="col-lg-6 text-right">
-                <a href="{{ route('user.adding') }}" class="btn btn-md btn-primary"><i class="fa fa-plus"></i>
+                <a href="{{ route('user.adding') }}" class="btn btn-md btn-primary"><i class="fa fa-user-plus"></i>
                     Pengguna Baru
                 </a>
             </div>
@@ -22,12 +22,13 @@
         <div class="card shadow mb-4">
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
                                 <th>No</th>
                                 <th>Nama Pengguna</th>
                                 <th>Email</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
 

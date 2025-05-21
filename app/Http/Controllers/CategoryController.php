@@ -22,7 +22,7 @@ class CategoryController extends Controller
     public function addingProcess(Request $request)
     {
         $request->validate([
-            'nameCategory' => 'required'
+            'nameCategory' => 'required|unique:category,nameCategory'
         ]);
 
         $category = new Category();
