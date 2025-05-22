@@ -3,14 +3,11 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-6">
-                <h1 class="h3 mb-2 text-gray-800">Daftar Artikel Berita</h1>
+                <h1 class="h3 mb-2 text-gray-800">Daftar Halaman</h1>
             </div>
             <div class="col-lg-6 text-right">
-                <a href="{{ route('news.adding') }}" class="btn btn-md btn-primary"><i class="fa fa-plus"></i>
-                    Artikel Baru
-                </a>
-                <a href="{{ route('news.export') }}" class="btn btn-outline-primary"><i class="fa fa-file-pdf"></i>
-                    Simpan ke PDF
+                <a href="{{ route('page.adding') }}" class="btn btn-md btn-primary"><i class="fa fa-plus"></i>
+                    Halaman Baru
                 </a>
             </div>
         </div>
@@ -28,9 +25,8 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Gambar</th>
                                 <th>Judul</th>
-                                <th>Kategori</th>
+                                <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -39,17 +35,16 @@
                             @php
                                 $i = 1;
                             @endphp
-                            @foreach ($news as $row)
+                            @foreach ($page as $row)
                                 <tr>
                                     <td>{{ $i++ }}</td>
-                                    <td><img src="{{ route('storage', $row->newsImage) }}" width="50px" height="50px"></td>
-                                    <td>{{$row->newsTitle}}</td>
-                                    <td>{{$row->category->nameCategory}}</td>
+                                    <td>{{ $row->pageTitle }}</td>
+                                    <td>{{ ($row->isActive == 1) ? "Aktif" : "Tidak Aktif"}}</td>
                                     <td>
-                                        <a href="{{ route('news.modify', $row->idNews) }}" class="btn btn-sm btn-info">
+                                        <a href="{{ route('page.modify', $row->idPage) }}" class="btn btn-sm btn-info">
                                             <i class="fa fa-edit"></i> Edit
                                         </a>
-                                        <a href="{{ route('news.delete', $row->idNews) }}"
+                                        <a href="{{ route('page.delete', $row->idPage) }}"
                                             onclick="return confirm('Hapus Artikel Berita?')" class="btn btn-sm btn-danger">
                                             <i class="fa fa-trash"></i> Hapus
                                         </a>

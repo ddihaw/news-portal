@@ -3,7 +3,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-6">
-                <h1 class="h3 mb-2 text-gray-800">List Pengguna</h1>
+                <h1 class="h3 mb-2 text-gray-800">Daftar Pengguna</h1>
             </div>
             <div class="col-lg-6 text-right">
                 <a href="{{ route('user.adding') }}" class="btn btn-md btn-primary"><i class="fa fa-user-plus"></i>

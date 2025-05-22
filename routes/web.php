@@ -32,15 +32,22 @@ Route::group(['middleware' => 'auth:user'], function () {
         Route::post('/news/modifyProcess', [App\Http\Controllers\NewsController::class, 'modifyProcess'])->name('news.modifyProcess');
         Route::get('/news/delete/{id}', [App\Http\Controllers\NewsController::class, 'delete'])->name('news.delete');
         Route::get('/news/export', [App\Http\Controllers\NewsController::class, 'export'])->name('news.export');
-        
+
         Route::get('/user', [App\Http\Controllers\UserController::class, 'index'])->name('user.index');
         Route::get('/user/adding', [App\Http\Controllers\UserController::class, 'adding'])->name('user.adding');
         Route::post('/user/addingProcess', [App\Http\Controllers\UserController::class, 'addingProcess'])->name('user.addingProcess');
         Route::get('/user/modify/{id}', [App\Http\Controllers\UserController::class, 'modify'])->name('user.modify');
         Route::post('/user/modifyProcess', [App\Http\Controllers\UserController::class, 'modifyProcess'])->name('user.modifyProcess');
         Route::get('/user/delete/{id}', [App\Http\Controllers\UserController::class, 'delete'])->name('user.delete');
+
+        Route::get('/page', [App\Http\Controllers\PageController::class, 'index'])->name('page.index');
+        Route::get('/page/adding', [App\Http\Controllers\PageController::class, 'adding'])->name('page.adding');
+        Route::post('/page/addingProcess', [App\Http\Controllers\PageController::class, 'addingProcess'])->name('page.addingProcess');
+        Route::get('/page/modify/{id}', [App\Http\Controllers\PageController::class, 'modify'])->name('page.modify');
+        Route::post('/page/modifyProcess', [App\Http\Controllers\PageController::class, 'modifyProcess'])->name('page.modifyProcess');
+        Route::get('/page/delete/{id}', [App\Http\Controllers\PageController::class, 'delete'])->name('page.delete');
     });
-    
+
     Route::get('/logout', [\App\Http\Controllers\AuthController::class, 'logout'])->name('auth.logout');
 });
 

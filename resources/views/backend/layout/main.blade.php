@@ -71,13 +71,13 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('news.adding') }}">
                     <i class="fas fa-fw fa-plus"></i>
-                    <span>Tambah Berita</span></a>
+                    <span>Artikel Baru</span></a>
             </li>
 
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('category.adding') }}">
                     <i class="fas fa-fw fa-plus"></i>
-                    <span>Tambah Kategori</span></a>
+                    <span>Kategori Baru</span></a>
             </li>
 
             <!-- Divider -->
@@ -99,7 +99,26 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('user.adding') }}">
                     <i class="fas fa-fw fa-user-plus"></i>
-                    <span>Tambah Pengguna</span></a>
+                    <span>Pengguna Baru</span></a>
+            </li>
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Halaman
+            </div>
+
+            <!-- Nav Item - Charts -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('page.index') }}">
+                    <i class="fas fa-fw fa-window-restore"></i>
+                    <span>Daftar Halaman</span></a>
+            </li>
+
+            <!-- Nav Item - Tables -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('page.adding') }}">
+                    <i class="fas fa-fw fa-folder-plus"></i>
+                    <span>Halaman Baru</span></a>
             </li>
 
             <!-- Divider -->
@@ -331,7 +350,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2021</span>
+                        <span>Copyright &copy; MHN 2025</span>
                     </div>
                 </div>
             </footer>

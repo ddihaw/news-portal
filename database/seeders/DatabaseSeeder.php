@@ -32,5 +32,11 @@ class DatabaseSeeder extends Seeder
             'newsImage' => 'berita_politik.jpg',
             'idCategory' => 1,
         ]);
+
+        DB::table('page')->insert([
+            'pageTitle' => 'Berita Politik',
+            'pageContent' => 'Berita tentang politik',
+            'isActive' => 1,
+        ]);
     }
 }

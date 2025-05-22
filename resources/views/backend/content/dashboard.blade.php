@@ -99,9 +99,9 @@
                         <h6 class="m-0 font-weight-bold text-primary">Kategori Berita</h6>
                     </div>
 
-                    <div class="card-body">
+                    <div class="card-body d-flex flex-column justify-content-center align-items-center">
                         <div class="chart-pie pt-4 pb-2 d-flex justify-content-center">
-                            <canvas id="myPieChart"></canvas>
+                            <canvas id="myPieChart" height="250"></canvas>
                         </div>
 
                         <div class="mt-4 text-center small" id="dynamicLegend"></div>

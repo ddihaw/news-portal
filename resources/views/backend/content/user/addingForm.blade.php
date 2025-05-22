@@ -8,7 +8,7 @@
                 <form action="{{ route('user.addingProcess') }}" method="post">
                     @csrf
                     <div class="mb-3">
-                        <label class="form-label">Nama Pengguna</label>
+                        <label class="form-label">Nama</label>
                         <input type="text" name="name" value="{{ old('name') }}"
                             class="form-control @error('name') is-invalid @enderror" id="name"
                             placeholder="Masukan nama pengguna">
@@ -18,7 +18,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Email Pengguna</label>
+                        <label class="form-label">Email</label>
                         <input type="email" name="email" value="{{ old('email') }}"
                             class="form-control @error('email') is-invalid @enderror" id="email"
                             placeholder="Masukan email pengguna">

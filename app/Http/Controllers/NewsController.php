@@ -12,7 +12,7 @@ class NewsController extends Controller
 {
     public function index()
     {
-        $news = News::with('category')->get();
+        $news = News::with('category')->orderBy('updated_at', 'desc')->get();
         return view('backend.content.news.list', compact('news'));
     }
 

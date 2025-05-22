@@ -8,7 +8,7 @@
                 <form action="{{ route('news.addingProcess') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-3">
-                        <label class="form-label">Judul Berita</label>
+                        <label class="form-label">Judul</label>
                         <input type="text" name="newsTitle" value="{{ old('newsTitle') }}"
                             class="form-control @error('newsTitle') is-invalid @enderror" id="newsTitle"
                             placeholder="Masukan judul berita">
@@ -18,7 +18,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Kategori Berita</label>
+                        <label class="form-label">Kategori</label>
                         <select name="idCategory" class="form-control @error('idCategory') is-invalid @enderror"
                             id="idCategory">
                             <option value="">Pilih Kategori</option>
@@ -46,7 +46,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Konten Berita</label>
+                        <label class="form-label">Konten</label>
                         <textarea name="newsContent" id="editor"
                             class="form-control @error('newsContent') is-invalid @enderror"
                             id="newsContent">{{ old('newsContent') }}</textarea>
