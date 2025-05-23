@@ -20,6 +20,10 @@
     <!-- Custom styles for this template-->
     <link href="{{ asset('assets/css/sb-admin-2.min.css') }}" rel="stylesheet">
 
+    <!-- Bootstrap core JavaScript-->
+    <script src="{{ asset('assets/vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+
 </head>
 
 <body id="page-top">
@@ -31,7 +35,8 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('dashboard.index') }}">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center"
+                href="{{ route('dashboard.index') }}">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
@@ -59,13 +64,13 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('news.index') }}">
                     <i class="fas fa-fw fa-newspaper"></i>
-                    <span>List Artikel</span></a>
+                    <span>Daftar Artikel</span></a>
             </li>
 
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('category.index') }}">
                     <i class="fas fa-fw fa-list"></i>
-                    <span>List Kategori</span></a>
+                    <span>Daftar Kategori</span></a>
             </li>
 
             <li class="nav-item">
@@ -119,6 +124,23 @@
                 <a class="nav-link" href="{{ route('page.adding') }}">
                     <i class="fas fa-fw fa-folder-plus"></i>
                     <span>Halaman Baru</span></a>
+            </li>
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Menu
+            </div>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('menu.index') }}">
+                    <i class="fas fa-fw fa-bars"></i>
+                    <span>Daftar Menu</span></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('menu.adding') }}">
+                    <i class="fas fa-fw fa-plus"></i>
+                    <span>Menu Baru</span></a>
             </li>
 
             <!-- Divider -->
@@ -386,10 +408,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Bootstrap core JavaScript-->
-    <script src="{{ asset('assets/vendor/jquery/jquery.min.js') }}"></script>
-    <script src="{{asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 
     <!-- Core plugin JavaScript-->
     <script src="{{ asset('assets/vendor/jquery-easing/jquery.easing.min.js') }}"></script>

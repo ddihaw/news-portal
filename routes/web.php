@@ -46,6 +46,14 @@ Route::group(['middleware' => 'auth:user'], function () {
         Route::get('/page/modify/{id}', [App\Http\Controllers\PageController::class, 'modify'])->name('page.modify');
         Route::post('/page/modifyProcess', [App\Http\Controllers\PageController::class, 'modifyProcess'])->name('page.modifyProcess');
         Route::get('/page/delete/{id}', [App\Http\Controllers\PageController::class, 'delete'])->name('page.delete');
+
+        Route::get('/menu', [App\Http\Controllers\MenuController::class, 'index'])->name('menu.index');
+        Route::get('/menu/adding', [App\Http\Controllers\MenuController::class, 'adding'])->name('menu.adding');
+        Route::post('/menu/addingProcess', [App\Http\Controllers\MenuController::class, 'addingProcess'])->name('menu.addingProcess');
+        Route::get('/menu/modify/{id}', [App\Http\Controllers\MenuController::class, 'modify'])->name('menu.modify');
+        Route::post('/menu/modifyProcess', [App\Http\Controllers\MenuController::class, 'modifyProcess'])->name('menu.modifyProcess');
+        Route::get('/menu/delete/{id}', [App\Http\Controllers\MenuController::class, 'delete'])->name('menu.delete');
+        Route::get('/menu/order/{id}/{idSwap}', [App\Http\Controllers\MenuController::class, 'order'])->name('menu.order');
     });
 
     Route::get('/logout', [\App\Http\Controllers\AuthController::class, 'logout'])->name('auth.logout');

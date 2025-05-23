@@ -61,8 +61,8 @@
 
         <div class="row align-items-stretch">
 
-            <div class="col-xl-8 col-lg-7">
-                <div class="card shadow mb-4 h-100">
+            <div class="col-xl-8 col-lg-7 mb-4">
+                <div class="card shadow h-100">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                         <h6 class="m-0 font-weight-bold text-primary">Berita Terbaru</h6>
                     </div>
@@ -93,8 +93,8 @@
                 </div>
             </div>
 
-            <div class="col-xl-4 col-lg-5">
-                <div class="card shadow mb-4 h-100">
+            <div class="col-xl-4 col-lg-5 mb-4">
+                <div class="card shadow h-100">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                         <h6 class="m-0 font-weight-bold text-primary">Kategori Berita</h6>
                     </div>

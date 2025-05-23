@@ -11,11 +11,6 @@ class Page extends Model
     protected $primaryKey = "idPage";
 
     protected $fillable = ["pageTitle", "pageContent", "isActive"];
-
-    public function category()
-    {
-        return $this->belongsTo(Category::class, 'idCategory');
-    }
 }
 
 ?>

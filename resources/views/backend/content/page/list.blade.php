@@ -45,7 +45,7 @@
                                             <i class="fa fa-edit"></i> Edit
                                         </a>
                                         <a href="{{ route('page.delete', $row->idPage) }}"
-                                            onclick="return confirm('Hapus Artikel Berita?')" class="btn btn-sm btn-danger">
+                                            onclick="return confirm('Hapus Halaman?')" class="btn btn-sm btn-danger">
                                             <i class="fa fa-trash"></i> Hapus
                                         </a>
                                     </td>

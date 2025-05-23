@@ -38,5 +38,47 @@ class DatabaseSeeder extends Seeder
             'pageContent' => 'Berita tentang politik',
             'isActive' => 1,
         ]);
+
+        DB::table('menu')->insert([
+            'menuName' => 'Berita',
+            'menuType' => 'page',
+            'menuUrl' => '1',
+            'menuTarget' => '_blank',
+            'menuOrder' => 1,
+        ]);
+
+        DB::table('menu')->insert([
+            'menuName' => 'Google',
+            'menuType' => 'url',
+            'menuUrl' => 'https://www.google.com',
+            'menuTarget' => '_blank',
+            'menuOrder' => 2,
+        ]);
+
+        DB::table('menu')->insert([
+            'menuName' => 'Cloud Storage',
+            'menuType' => 'url',
+            'menuUrl' => '#',
+            'menuTarget' => '_self',
+            'menuOrder' => 3,
+        ]);
+
+        DB::table('menu')->insert([
+            'menuName' => 'Google Cloud Platform',
+            'menuType' => 'url',
+            'menuUrl' => 'https://cloud.google.com',
+            'menuTarget' => '_self',
+            'menuOrder' => 1,
+            'menuParent' => 3
+        ]);
+
+        DB::table('menu')->insert([
+            'menuName' => 'Amazon Web Services',
+            'menuType' => 'url',
+            'menuUrl' => 'https://aws.amazon.com',
+            'menuTarget' => '_self',
+            'menuOrder' => 2,
+            'menuParent' => 3
+        ]);
     }
 }
