@@ -65,9 +65,9 @@ class MenuController extends Controller
 
         $menuUrl = "";
         if ($request->menuType == 'url') {
-            $menuUrl = $request->menuUrl;
+            $menuUrl = $request->url;
         } else {
-            $menuUrl = $request->menuUrl;
+            $menuUrl = $request->page;
         }
 
         $menu = new Menu();
@@ -82,7 +82,7 @@ class MenuController extends Controller
             $menu->save();
             return redirect()->route('menu.index')->with('pesan', ['success', 'Menu berhasil ditambahkan']);
         } catch (\Exception $e) {
-            return redirect()->route('menu.index')->with('pesan', ['danger', 'Menu gagal ditambahkan']) . $e->getMessage();
+            return redirect()->route('menu.index')->with('pesan', ['danger', 'Menu gagal ditambahkan' . $e->getMessage()]);
         }
 
     }
@@ -125,7 +125,7 @@ class MenuController extends Controller
             $menu->save();
             return redirect()->route('menu.index')->with('pesan', ['success', 'Menu berhasil diperbarui']);
         } catch (\Exception $e) {
-            return redirect()->route('menu.index')->with('pesan', ['danger', 'Menu gagal diperbarui']) . $e->getMessage();
+            return redirect()->route('menu.index')->with('pesan', ['danger', 'Menu gagal diperbarui']);
         }
     }
 

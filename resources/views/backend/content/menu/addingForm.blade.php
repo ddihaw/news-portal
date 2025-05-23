@@ -33,12 +33,12 @@
                     <div class="mb-3">
                         <label class="form-label">URL</label>
                         <div id="showURL">
-                            <input type="url" name="menuUrl" value="{{ old('linkURL') }}"
+                            <input type="url" name="url" value="{{ old('menuUrl') }}"
                                 class="form-control @error('menuUrl') is-invalid @enderror" id="menuUrl"
                                 placeholder="Masukan URL">
                         </div>
                         <div id="showPage">
-                            <select name="menuUrl" id="menuUrl" class="form-control @error('menuUrl') is-invalid @enderror">
+                            <select name="page" id="menuUrl" class="form-control @error('menuPage') is-invalid @enderror">
                                 <option value="">Pilih Halaman</option>
                                 @foreach ($page as $row)
                                     <option value="{{ $row->idPage }}">{{ $row->pageTitle }}</option>
