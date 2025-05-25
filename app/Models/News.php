@@ -10,7 +10,7 @@ class News extends Model
 
     protected $primaryKey = "idNews";
 
-    protected $fillable = ["newsTitle", "newsContent", "newsImage", "idCategory"];
+    protected $fillable = ["newsTitle", "newsContent", "newsImage", "idCategory", "totalViews"];
 
     public function category()
     {

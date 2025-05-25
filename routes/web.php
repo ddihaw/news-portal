@@ -2,9 +2,18 @@
 
 use Illuminate\Support\Facades\Route;
 
+/*
 Route::get('/', function () {
     return view('welcome');
 });
+*/
+
+Route::get('/', [\App\Http\Controllers\LandingController::class, 'index'])->name('landing.index');
+Route::get('/article/{id}', [\App\Http\Controllers\LandingController::class, 'articlePage'])->name('landing.articlePage');
+Route::get('/page/{id}', [\App\Http\Controllers\LandingController::class, 'detailPage'])->name('landing.detailPage');
+Route::get('/article', [\App\Http\Controllers\LandingController::class, 'allArticles'])->name('landing.allArticles');
+Route::get('/menu', [\App\Http\Controllers\LandingController::class, 'getMenu'])->name('landing.getMenu');
+
 
 
 Route::get('/login', [\App\Http\Controllers\AuthController::class, 'index'])->name('auth.index')->middleware('guest');
