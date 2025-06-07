@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+
 
 class UserController extends Controller
 {
@@ -52,20 +54,43 @@ class UserController extends Controller
         $request->validate([
             'id' => 'required',
             'name' => 'required',
-            'email' => 'required|email'
+            'email' => 'required|email',
+            'role' => 'required'
         ]);
 
         $users = User::findOrFail($request->id);
         $users->name = $request->name;
         $users->email = $request->email;
+        $users->role = $request->role;
+
+        $currentUser = Auth::user(); // user yang sedang login
+        $isSelfUpdate = $currentUser->id === $users->id; // apakah dia sedang mengubah dirinya sendiri
+        $oldRole = $currentUser->role;
 
         try {
             $users->save();
-            return redirect(route('user.index'))->with('pesan', ['success', 'Pengguna berhasil diperbarui']);
+
+            // Jika admin sedang mengganti role dirinya sendiri
+            if ($isSelfUpdate && $oldRole === 'admin' && $users->role !== 'admin') {
+                Auth::logout();
+                return redirect('/logout');
+            }
+
+            if ($oldRole === 'admin') {
+                return redirect(route('user.index'))->with('pesan', ['success', 'Pengguna berhasil diperbarui']);
+            } else {
+                return redirect(url($oldRole . '/'))->with('pesan', ['success', 'Data berhasil diperbarui']);
+            }
+
         } catch (\Exception $e) {
-            return redirect(route('user.index'))->with('pesan', ['danger', 'Pengguna gagal diperbarui']);
+            if ($oldRole === 'admin') {
+                return redirect(route('user.index'))->with('pesan', ['danger', 'Pengguna gagal diperbarui']);
+            } else {
+                return redirect(url($oldRole . '/'))->with('pesan', ['danger', 'Data gagal diperbarui']);
+            }
         }
     }
+
 
     public function delete($id)
     {

@@ -2,10 +2,13 @@
 @section('content')
     <div class="container-fluid">
         <h1>Edit Artikel</h1>
+        @php
+            $prefix = Auth::user()->role;
+        @endphp
 
         <div>
             <div>
-                <form action="{{ route('news.modifyProcess') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ url($prefix . '/news/modifyProcess') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-3">
                         <label class="form-label">Judul</label>
@@ -60,7 +63,7 @@
 
                     <input type="hidden" name="idNews" value="{{ $news->idNews }}">
                     <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-                    <a href="{{ route('news.index') }}" class="btn btn-secondary">Batal</a>
+                    <a href="{{ url($prefix . '/news') }}" class="btn btn-secondary">Batal</a>
                 </form>
             </div>
         </div>

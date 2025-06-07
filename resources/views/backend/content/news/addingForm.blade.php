@@ -3,9 +3,13 @@
     <div class="container-fluid">
         <h1>Artikel Baru</h1>
 
+        @php
+            $prefix = Auth::user()->role;
+        @endphp
+
         <div>
             <div>
-                <form action="{{ route('news.addingProcess') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ url($prefix . '/news/addingProcess') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-3">
                         <label class="form-label">Judul</label>
@@ -56,7 +60,7 @@
                     </div>
 
                     <button type="submit" class="btn btn-primary">Simpan</button>
-                    <a href="{{ route('news.index') }}" class="btn btn-secondary">Batal</a>
+                    <a href="{{ url($prefix . '/news') }}" class="btn btn-secondary">Batal</a>
                 </form>
             </div>
         </div>

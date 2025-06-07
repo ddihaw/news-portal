@@ -14,17 +14,15 @@ Route::get('/page/{id}', [\App\Http\Controllers\LandingController::class, 'detai
 Route::get('/article', [\App\Http\Controllers\LandingController::class, 'allArticles'])->name('landing.allArticles');
 Route::get('/menu', [\App\Http\Controllers\LandingController::class, 'getMenu'])->name('landing.getMenu');
 
-
-
 Route::get('/login', [\App\Http\Controllers\AuthController::class, 'index'])->name('auth.index')->middleware('guest');
 Route::post('/login', [\App\Http\Controllers\AuthController::class, 'verify'])->name('auth.verify');
 
 Route::group(['middleware' => 'auth:user'], function () {
-    Route::prefix('admin')->group(function () {
-        Route::get('/', [App\Http\Controllers\DashboardController::class, 'index'])->name(name: 'dashboard.index');
-        Route::get('/profile', [App\Http\Controllers\DashboardController::class, 'profile'])->name(name: 'dashboard.profile');
-        Route::get('/resetPassword', [App\Http\Controllers\DashboardController::class, 'resetPassword'])->name(name: 'dashboard.resetPassword');
-        Route::post('/resetPasswordProcess', [App\Http\Controllers\DashboardController::class, 'resetPasswordProcess'])->name(name: 'dashboard.resetPasswordProcess');
+    Route::prefix('admin')->middleware('role:admin')->group(function () {
+        Route::get('/', [App\Http\Controllers\AdminDashboardController::class, 'index'])->name(name: 'dashboard.index');
+        Route::get('/profile', [App\Http\Controllers\AdminDashboardController::class, 'profile'])->name(name: 'dashboard.profile');
+        Route::get('/resetPassword', [App\Http\Controllers\AdminDashboardController::class, 'resetPassword'])->name(name: 'dashboard.resetPassword');
+        Route::post('/resetPasswordProcess', [App\Http\Controllers\AdminDashboardController::class, 'resetPasswordProcess'])->name(name: 'dashboard.resetPasswordProcess');
 
         Route::get('/category', [App\Http\Controllers\CategoryController::class, 'index'])->name('category.index');
         Route::get('/category/adding', [App\Http\Controllers\CategoryController::class, 'adding'])->name('category.adding');
@@ -63,6 +61,50 @@ Route::group(['middleware' => 'auth:user'], function () {
         Route::post('/menu/modifyProcess', [App\Http\Controllers\MenuController::class, 'modifyProcess'])->name('menu.modifyProcess');
         Route::get('/menu/delete/{id}', [App\Http\Controllers\MenuController::class, 'delete'])->name('menu.delete');
         Route::get('/menu/order/{id}/{idSwap}', [App\Http\Controllers\MenuController::class, 'order'])->name('menu.order');
+    });
+
+    Route::prefix('editor')->middleware('role:editor')->group(function () {
+        Route::get('/', [App\Http\Controllers\EditorDashboardController::class, 'index'])->name(name: 'dashboard.index');
+        Route::get('/profile', [App\Http\Controllers\EditorDashboardController::class, 'profile'])->name(name: 'dashboard.profile');
+        Route::get('/resetPassword', [App\Http\Controllers\EditorDashboardController::class, 'resetPassword'])->name(name: 'dashboard.resetPassword');
+        Route::post('/resetPasswordProcess', [App\Http\Controllers\EditorDashboardController::class, 'resetPasswordProcess'])->name(name: 'dashboard.resetPasswordProcess');
+
+        Route::get('/category', [App\Http\Controllers\CategoryController::class, 'index'])->name('category.index');
+        Route::get('/category/adding', [App\Http\Controllers\CategoryController::class, 'adding'])->name('category.adding');
+        Route::post('/category/addingProcess', [App\Http\Controllers\CategoryController::class, 'addingProcess'])->name('category.addingProcess');
+        Route::get('/category/modify/{id}', [App\Http\Controllers\CategoryController::class, 'modify'])->name('category.modify');
+        Route::post('/category/modifyProcess', [App\Http\Controllers\CategoryController::class, 'modifyProcess'])->name('category.modifyProcess');
+        Route::get('/category/delete/{id}', [App\Http\Controllers\CategoryController::class, 'delete'])->name('category.delete');
+        Route::get('category/export', [App\Http\Controllers\CategoryController::class, 'export'])->name('category.export');
+
+        Route::get('/news', [App\Http\Controllers\NewsController::class, 'index'])->name('news.index');
+        Route::get('/news/adding', [App\Http\Controllers\NewsController::class, 'adding'])->name('news.adding');
+        Route::post('/news/addingProcess', [App\Http\Controllers\NewsController::class, 'addingProcess'])->name('news.addingProcess');
+        Route::get('/news/modify/{id}', [App\Http\Controllers\NewsController::class, 'modify'])->name('news.modify');
+        Route::post('/news/modifyProcess', [App\Http\Controllers\NewsController::class, 'modifyProcess'])->name('news.modifyProcess');
+        Route::get('/news/delete/{id}', [App\Http\Controllers\NewsController::class, 'delete'])->name('news.delete');
+        Route::get('/news/export', [App\Http\Controllers\NewsController::class, 'export'])->name('news.export');
+
+        Route::get('/user/modify/{id}', [App\Http\Controllers\UserController::class, 'modify'])->name('user.modify');
+        Route::post('/user/modifyProcess', [App\Http\Controllers\UserController::class, 'modifyProcess'])->name('user.modifyProcess');
+    });
+
+    Route::prefix('author')->middleware('role:author')->group(function () {
+        Route::get('/', [App\Http\Controllers\AuthorDashboardController::class, 'index'])->name(name: 'dashboard.index');
+        Route::get('/profile', [App\Http\Controllers\AuthorDashboardController::class, 'profile'])->name(name: 'dashboard.profile');
+        Route::get('/resetPassword', [App\Http\Controllers\AuthorDashboardController::class, 'resetPassword'])->name(name: 'dashboard.resetPassword');
+        Route::post('/resetPasswordProcess', [App\Http\Controllers\AuthorDashboardController::class, 'resetPasswordProcess'])->name(name: 'dashboard.resetPasswordProcess');
+
+        Route::get('/news', [App\Http\Controllers\NewsController::class, 'index'])->name('news.index');
+        Route::get('/news/adding', [App\Http\Controllers\NewsController::class, 'adding'])->name('news.adding');
+        Route::post('/news/addingProcess', [App\Http\Controllers\NewsController::class, 'addingProcess'])->name('news.addingProcess');
+        Route::get('/news/modify/{id}', [App\Http\Controllers\NewsController::class, 'modify'])->name('news.modify');
+        Route::post('/news/modifyProcess', [App\Http\Controllers\NewsController::class, 'modifyProcess'])->name('news.modifyProcess');
+        Route::get('/news/delete/{id}', [App\Http\Controllers\NewsController::class, 'delete'])->name('news.delete');
+        Route::get('/news/export', [App\Http\Controllers\NewsController::class, 'export'])->name('news.export');
+
+        Route::get('/user/modify/{id}', [App\Http\Controllers\UserController::class, 'modify'])->name('user.modify');
+        Route::post('/user/modifyProcess', [App\Http\Controllers\UserController::class, 'modifyProcess'])->name('user.modifyProcess');
     });
 
     Route::get('/logout', [\App\Http\Controllers\AuthController::class, 'logout'])->name('auth.logout');

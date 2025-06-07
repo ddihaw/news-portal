@@ -28,129 +28,127 @@
 
 <body id="page-top">
 
+    @php
+        $prefix = Auth::user()->role;
+        $name = Auth::user()->name;
+        $id = Auth::user()->id;
+    @endphp
+
+
     <!-- Page Wrapper -->
     <div id="wrapper">
 
         <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
-            <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center"
-                href="{{ route('dashboard.index') }}">
+                href="{{ url($prefix . '/') }}">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
                 <div class="sidebar-brand-text mx-3">PORTAL BERITA</div>
             </a>
 
-            <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
-            <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="{{ route('dashboard.index') }}">
+                <a class="nav-link" href="{{ url($prefix . '/dashboard') }}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
 
-            <!-- Divider -->
             <hr class="sidebar-divider">
 
-            <!-- Heading -->
             <div class="sidebar-heading">
                 Artikel Berita
             </div>
 
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('news.index') }}">
+                <a class="nav-link" href="{{ url($prefix . '/news') }}">
                     <i class="fas fa-fw fa-newspaper"></i>
                     <span>Daftar Artikel</span></a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('category.index') }}">
-                    <i class="fas fa-fw fa-list"></i>
-                    <span>Daftar Kategori</span></a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('news.adding') }}">
+                <a class="nav-link" href="{{ url($prefix . '/news/adding') }}">
                     <i class="fas fa-fw fa-plus"></i>
                     <span>Artikel Baru</span></a>
             </li>
 
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('category.adding') }}">
-                    <i class="fas fa-fw fa-plus"></i>
-                    <span>Kategori Baru</span></a>
-            </li>
+            @if(Auth::user()->role === 'admin' || Auth::user()->role === 'editor')
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url($prefix . '/category') }}">
+                        <i class="fas fa-fw fa-list"></i>
+                        <span>Daftar Kategori</span></a>
+                </li>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url($prefix . '/category/adding') }}">
+                        <i class="fas fa-fw fa-plus"></i>
+                        <span>Kategori Baru</span></a>
+                </li>
+            @endif
 
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Pengguna
-            </div>
+            @if(Auth::user()->role === 'admin')
+                <hr class="sidebar-divider">
 
-            <!-- Nav Item - Charts -->
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('user.index') }}">
-                    <i class="fas fa-fw fa-users"></i>
-                    <span>List Pengguna</span></a>
-            </li>
+                <div class="sidebar-heading">
+                    Pengguna
+                </div>
 
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('user.adding') }}">
-                    <i class="fas fa-fw fa-user-plus"></i>
-                    <span>Pengguna Baru</span></a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url($prefix . '/user') }}">
+                        <i class="fas fa-fw fa-users"></i>
+                        <span>List Pengguna</span></a>
+                </li>
 
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Halaman
-            </div>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url($prefix . '/user/adding') }}">
+                        <i class="fas fa-fw fa-user-plus"></i>
+                        <span>Pengguna Baru</span></a>
+                </li>
 
-            <!-- Nav Item - Charts -->
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('page.index') }}">
-                    <i class="fas fa-fw fa-window-restore"></i>
-                    <span>Daftar Halaman</span></a>
-            </li>
+                <div class="sidebar-heading">
+                    Halaman
+                </div>
 
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('page.adding') }}">
-                    <i class="fas fa-fw fa-folder-plus"></i>
-                    <span>Halaman Baru</span></a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url($prefix . '/page') }}">
+                        <i class="fas fa-fw fa-window-restore"></i>
+                        <span>Daftar Halaman</span></a>
+                </li>
 
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Menu
-            </div>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url($prefix . '/page/adding') }}">
+                        <i class="fas fa-fw fa-folder-plus"></i>
+                        <span>Halaman Baru</span></a>
+                </li>
 
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('menu.index') }}">
-                    <i class="fas fa-fw fa-bars"></i>
-                    <span>Daftar Menu</span></a>
-            </li>
+                <div class="sidebar-heading">
+                    Menu
+                </div>
 
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('menu.adding') }}">
-                    <i class="fas fa-fw fa-plus"></i>
-                    <span>Menu Baru</span></a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url($prefix . '/menu') }}">
+                        <i class="fas fa-fw fa-bars"></i>
+                        <span>Daftar Menu</span></a>
+                </li>
 
-            <!-- Divider -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url($prefix . '/menu/adding') }}">
+                        <i class="fas fa-fw fa-plus"></i>
+                        <span>Menu Baru</span></a>
+                </li>
+            @endif
+
             <hr class="sidebar-divider d-none d-md-block">
 
-            <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
+
         </ul>
+
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -331,24 +329,20 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ $name }}</span>
                                 <img class="img-profile rounded-circle"
                                     src="{{ asset('assets/img/undraw_profile.svg') }}">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="{{ route('dashboard.profile') }}">
+                                <a class="dropdown-item" href="{{ url($prefix . '/profile') }}">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
-                                <a class="dropdown-item" href="{{ route('dashboard.resetPassword') }}">
+                                <a class="dropdown-item" href="{{ url($prefix . '/resetPassword') }}">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Reset Password
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Activity Log
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
@@ -400,7 +394,7 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-body">Pilih "Logout" di bawah ini jika Anda siap untuk mengakhiri sesi Anda saat ini.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                     <a class="btn btn-primary" href="{{ route('auth.logout') }}">Logout</a>

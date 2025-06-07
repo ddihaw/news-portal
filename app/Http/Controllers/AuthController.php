@@ -20,15 +20,25 @@ class AuthController extends Controller
         ]);
 
         if (Auth::guard('user')->attempt(['email' => $request->email, 'password' => $request->password])) {
-            return redirect()->intended('/admin');
+            $user = Auth::guard('user')->user();
+
+            switch ($user->role) {
+                case 'admin':
+                    return redirect()->intended('/admin');
+                case 'editor':
+                    return redirect()->intended('/editor');
+                case 'author':
+                    return redirect()->intended('/author');
+            }
         } else {
             return redirect(route('auth.index'))->with('pesan', 'Email dan Password salah!');
         }
+
     }
 
     public function logout()
     {
-        if(Auth::guard('user')->check()) {
+        if (Auth::guard('user')->check()) {
             Auth::guard('user')->logout();
         }
 

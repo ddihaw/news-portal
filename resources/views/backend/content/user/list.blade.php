@@ -35,6 +35,7 @@
                         <tbody>
                             @php
                                 $i = 1;
+                                $prefix = Auth::user()->role;
                             @endphp
                             @foreach ($users as $row)
                                 <tr>
@@ -42,7 +43,7 @@
                                     <td>{{ $row->name }}</td>
                                     <td>{{ $row->email }}</td>
                                     <td>
-                                        <a href="{{ route('user.modify', $row->id) }}" class="btn btn-sm btn-info"><i
+                                        <a href="{{ url($prefix . '/user/modify/' . $row->id) }}" class="btn btn-sm btn-info"><i
                                                 class="fa fa-edit"></i> Edit</a>
                                         <a href="{{ route('user.delete', $row->id) }}"
                                             onclick="return confirm('Hapus Pengguna?')" class="btn btn-sm btn-danger"><i

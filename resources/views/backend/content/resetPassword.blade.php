@@ -1,7 +1,7 @@
 @extends('backend.layout.main')
 @section('content')
     <div class="container-fluid">
-        <h1>Kategori Baru</h1>
+        <h1>Reset Password</h1>
 
         @if (session()->has('pesan'))
             <div class="alert alert-{{ session()->get('pesan')[0] }}">
@@ -9,9 +9,13 @@
             </div>
         @endif
 
+        @php
+            $prefix = Auth::user()->role;
+        @endphp
+
         <div>
             <div>
-                <form action="{{ route('dashboard.resetPasswordProcess') }}" method="post">
+                <form action="{{ url($prefix . '/resetPasswordProcess') }}" method="post">
                     @csrf
                     <div class="mb-3">
                         <label class="form-label">Password Lama</label>
@@ -44,7 +48,7 @@
                     </div>
 
                     <button type="submit" class="btn btn-primary">Simpan</button>
-                    <a href="{{ route('dashboard.index') }}" class="btn btn-secondary">Kembali</a>
+                    <a href="{{ url($prefix . '/') }}" class="btn btn-secondary">Kembali</a>
                 </form>
             </div>
         </div>
