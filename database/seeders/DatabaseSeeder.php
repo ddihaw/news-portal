@@ -46,6 +46,7 @@ class DatabaseSeeder extends Seeder
             'newsContent' => 'Berita tentang politik',
             'newsImage' => 'berita_politik.jpg',
             'idCategory' => 1,
+            'idAuthor' => 12,
         ]);
 
         DB::table('page')->insert([

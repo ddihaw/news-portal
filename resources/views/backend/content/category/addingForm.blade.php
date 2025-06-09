@@ -3,9 +3,13 @@
 <div class="container-fluid">
     <h1>Kategori Baru</h1>
 
+    @php
+        $prefix = Auth::user()->role;
+    @endphp
+
     <div>
         <div>
-            <form action="{{ route('category.addingProcess') }}" method="post">
+            <form action="{{ url($prefix . '/category/addingProcess') }}" method="post">
                 @csrf
                 <div class="mb-3">
                     <label class="form-label">Nama Kategori</label>
@@ -18,7 +22,7 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary">Tambah</button>
-                <a href="{{ route('category.index') }}" class="btn btn-secondary">Batal</a>
+                <a href="{{ url($prefix . '/category') }}" class="btn btn-secondary">Batal</a>
             </form>
         </div>
     </div>

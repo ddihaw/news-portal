@@ -4,6 +4,8 @@
         <h1>Edit Artikel</h1>
         @php
             $prefix = Auth::user()->role;
+            $status = Auth::user()->status;
+            $statusList = ['Sedang Ditinjau', 'Revisi Diperlukan', 'Terpublikasi', 'Ditolak'];
         @endphp
 
         <div>
@@ -58,6 +60,41 @@
                             id="newsContent">{{ $news->newsContent }}</textarea>
                         @error('newsContent')
                             <span style="color: red; font-weight: 600; font-size: 9pt;">{{$message}}</span>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Catatan Editor</label>
+                        @if ($prefix == 'editor')
+                            <textarea name="editorNotes" class="form-control @error('editorNotes') is-invalid @enderror"
+                                id="editorNotes" placeholder="Tulis catatan Anda di sini"
+                                rows="4">{{ old('editorNotes', $news->editorNotes) }}</textarea>
+                        @else
+                            <textarea name="editorNotes" class="form-control @error('editorNotes') is-invalid @enderror"
+                                id="editorNotes" rows="4" readonly>{{ old('editorNotes', $news->editorNotes) }}</textarea>
+                        @endif
+                        @error('editorNotes')
+                            <span style="color: red; font-weight: 600; font-size: 9pt;">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Status</label>
+                        @if ($prefix == 'editor')
+                            <select name="status" class="form-control @error('status') is-invalid @enderror" id="status">
+                                <option value="">Pilih Status</option>
+                                @foreach ($statusList as $option)
+                                    <option value="{{ $option }}" {{ old('status', $news->status ?? '') == $option ? 'selected' : '' }}>{{ ucfirst($option) }}</option>
+                                @endforeach
+                            </select>
+                        @else
+                            <select class="form-control" disabled>
+                                <option>{{ ucfirst($news->status) }}</option>
+                            </select>
+                            <input type="hidden" name="role" value="{{ $news->status }}">
+                        @endif
+                        @error('status')
+                            <span style="color: red; font-weight: 600; font-size: 9pt;">{{ $message }}</span>
                         @enderror
                     </div>
 

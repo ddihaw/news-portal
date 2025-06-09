@@ -29,7 +29,7 @@
                                         <th>Judul Artikel</th>
                                         <th>Kategori</th>
                                         <th>Status</th>
-                                        <th>Aksi</th>
+                                        <th>Terakhir Diubah</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -39,8 +39,8 @@
                                             </td>
                                             <td>{{ $news->newsTitle }}</td>
                                             <td>{{ $news->category->nameCategory }}</td>
-                                            <td></td>
-                                            <td></td>
+                                            <td>{{ $news->status }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($news->updated_at)->diffForHumans() }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>

@@ -36,6 +36,11 @@ class AuthController extends Controller
 
     }
 
+    public function signup()
+    {
+        //
+    }
+
     public function logout()
     {
         if (Auth::guard('user')->check()) {

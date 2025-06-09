@@ -38,6 +38,9 @@
                                 <th>Gambar</th>
                                 <th>Judul</th>
                                 <th>Kategori</th>
+                                <th>Status</th>
+                                <th>Revisi</th>
+                                <th>Terakhir Diubah</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -52,14 +55,36 @@
                                     <td><img src="{{ route('storage', $row->newsImage) }}" width="50px" height="50px"></td>
                                     <td>{{$row->newsTitle}}</td>
                                     <td>{{$row->category->nameCategory}}</td>
+                                    <td>{{$row->status}}</td>
+                                    <td>{{$row->revision}}</td>
+                                    <td>{{ \Carbon\Carbon::parse($row->updated_at)->diffForHumans() }}</td>
                                     <td>
-                                        <a href="{{ route('news.modify', $row->idNews) }}" class="btn btn-sm btn-info">
-                                            <i class="fa fa-edit"></i> Edit
-                                        </a>
-                                        <a href="{{ route('news.delete', $row->idNews) }}"
-                                            onclick="return confirm('Hapus Artikel Berita?')" class="btn btn-sm btn-danger">
-                                            <i class="fa fa-trash"></i> Hapus
-                                        </a>
+                                        @if (Auth::user()->role !== 'editor')
+                                            @if ($row->status == 'Ditolak')
+                                                <a href="{{ url($prefix . '/news/delete/' . $row->idNews) }}"
+                                                    onclick="return confirm('Hapus Artikel Berita?')" class="btn btn-sm btn-danger">
+                                                    <i class="fa fa-trash"></i> Hapus
+                                                </a>
+                                            @else
+                                                <a href="{{ url($prefix . '/news/modify/' . $row->idNews) }}"
+                                                    class="btn btn-sm btn-info">
+                                                    <i class="fa fa-edit"></i> Edit
+                                                </a>
+                                                <a href="{{ url($prefix . '/news/delete/' . $row->idNews) }}"
+                                                    onclick="return confirm('Hapus Artikel Berita?')" class="btn btn-sm btn-danger">
+                                                    <i class="fa fa-trash"></i> Hapus
+                                                </a>
+                                            @endif
+                                        @else
+                                            <a href="{{ url($prefix . '/news/modify/' . $row->idNews) }}"
+                                                class="btn btn-sm btn-info">
+                                                <i class="fa fa-edit"></i> Edit
+                                            </a>
+                                            <a href="{{ url($prefix . '/news/delete/' . $row->idNews) }}"
+                                                onclick="return confirm('Hapus Artikel Berita?')" class="btn btn-sm btn-danger">
+                                                <i class="fa fa-trash"></i> Hapus
+                                            </a>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

@@ -17,7 +17,11 @@ class AuthorDashboardController extends Controller
 
         $categoryNames = $categories->pluck('nameCategory')->toArray();
         $categoryNewsCounts = $categories->pluck('news_count')->toArray();
-        $latestNews = News::with('category')->orderBy('updated_at', 'desc')->take(5)->get();
+        $latestNews = News::with('category')
+            ->orderBy('updated_at', 'desc')
+            ->where('idAuthor', Auth::user()->id)
+            ->take(5)
+            ->get();
 
         return view('backend.content.dashboard.writerDashboard', [
             'categoriesTotal' => $categories->count(),

@@ -8,7 +8,7 @@
                         <!--<img class="img-fluid rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg"
                                     alt="..." />-->
                         <div class="ms-3">
-                            <div class="fw-bold">Admin</div>
+                            <div class="fw-bold">{{ $news->author->name }}</div>
                             <div class="text-muted">{{ $news->category->nameCategory }}</div>
                         </div>
                     </div>

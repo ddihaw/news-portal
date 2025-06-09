@@ -12,13 +12,22 @@ class LandingController extends Controller
     public function index()
     {
         $menus = $this->getMenu();
-        $latestNews = News::with('category')->orderBy('created_at', 'desc')->take(8)->get();
+
+        $latestNews = News::with('category')
+            ->orderBy('created_at', 'desc')
+            ->where('status', 'Terpublikasi')
+            ->take(8)
+            ->get();
+
         $popularNews = News::with('category')
             ->orderByDesc('totalViews')
+            ->where('status', 'Terpublikasi')
             ->get()
             ->take(5);
+
         return view('frontend.content.home', compact('menus', 'latestNews', 'popularNews'));
     }
+
     public function articlePage($id)
     {
         $menus = $this->getMenu();
@@ -39,7 +48,10 @@ class LandingController extends Controller
     public function allArticles()
     {
         $menus = $this->getMenu();
-        $latestNews = News::with('category')->orderBy('created_at', 'desc')->get();
+        $latestNews = News::with('category')
+            ->orderBy('created_at', 'desc')
+            ->where('status', 'Terpublikasi')
+            ->get();
         return view('frontend.content.allArticles', compact('menus', 'latestNews'));
     }
 

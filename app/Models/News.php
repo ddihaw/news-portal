@@ -16,6 +16,11 @@ class News extends Model
     {
         return $this->belongsTo(Category::class, 'idCategory');
     }
+
+    public function author()
+    {
+        return $this->belongsTo(User::class, 'idAuthor');
+    }
 }
 
 ?>

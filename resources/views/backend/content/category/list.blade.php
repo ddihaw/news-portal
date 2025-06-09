@@ -1,15 +1,21 @@
 @extends('backend.layout.main')
 @section('content')
     <div class="container-fluid">
+
+        @php
+            $prefix = Auth::user()->role;
+        @endphp
+
         <div class="row">
             <div class="col-lg-6">
                 <h1 class="h3 mb-2 text-gray-800">Daftar Kategori Berita</h1>
             </div>
             <div class="col-lg-6 text-right">
-                <a href="{{ route('category.adding') }}" class="btn btn-md btn-primary"><i class="fa fa-plus"></i>
+                <a href="{{ url($prefix . '/category/adding') }}" class="btn btn-md btn-primary"><i class="fa fa-plus"></i>
                     Kategori Baru
                 </a>
-                <a href="{{ route('category.export') }}" class="btn btn-outline-primary"><i class="fa fa-file-pdf"></i>
+                <a href="{{ url($prefix . '/category/export') }}" class="btn btn-outline-primary"><i
+                        class="fa fa-file-pdf"></i>
                     Simpan ke PDF
                 </a>
             </div>
@@ -43,9 +49,9 @@
                                     <td>{{ $i++ }}</td>
                                     <td>{{ $row->nameCategory }}</td>
                                     <td>
-                                        <a href="{{ route('category.modify', $row->idCategory) }}"
+                                        <a href="{{ url($prefix . '/category/modify/' . $row->idCategory) }}"
                                             class="btn btn-sm btn-info"><i class="fa fa-edit"></i> Edit</a>
-                                        <a href="{{ route('category.delete', $row->idCategory) }}"
+                                        <a href="{{ url($prefix . '/category/delete/' . $row->idCategory) }}"
                                             onclick="return confirm('Hapus Kategori?')" class="btn btn-sm btn-danger"><i
                                                 class="fa fa-trash"></i> Hapus</a>
                                     </td>

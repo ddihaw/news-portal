@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Auth;
 
 class CategoryController extends Controller
 {
@@ -21,6 +22,8 @@ class CategoryController extends Controller
 
     public function addingProcess(Request $request)
     {
+        $prefix = Auth::user()->role;
+
         $request->validate([
             'nameCategory' => 'required|unique:category,nameCategory'
         ]);
@@ -30,9 +33,9 @@ class CategoryController extends Controller
 
         try {
             $category->save();
-            return redirect(route('category.index'))->with('pesan', ['success', 'Kategori berhasil ditambahkan']);
+            return redirect(url($prefix . '/category'))->with('pesan', ['success', 'Kategori berhasil ditambahkan']);
         } catch (\Exception $e) {
-            return redirect(route('category.index'))->with('pesan', ['danger', 'Kategori gagal ditambahkan']);
+            return redirect(url($prefix . '/category'))->with('pesan', ['danger', 'Kategori gagal ditambahkan']);
         }
     }
 
@@ -49,26 +52,28 @@ class CategoryController extends Controller
             'nameCategory' => 'required'
         ]);
 
+        $prefix = Auth::user()->role;
         $category = Category::findOrFail($request->idCategory);
         $category->nameCategory = $request->nameCategory;
 
         try {
             $category->save();
-            return redirect(route('category.index'))->with('pesan', ['success', 'Kategori berhasil diperbarui']);
+            return redirect(url($prefix . '/category'))->with('pesan', ['success', 'Kategori berhasil diperbarui']);
         } catch (\Exception $e) {
-            return redirect(route('category.index'))->with('pesan', ['danger', 'Kategori gagal diperbarui']);
+            return redirect(url($prefix . '/category'))->with('pesan', ['danger', 'Kategori gagal diperbarui']);
         }
     }
 
     public function delete($id)
     {
+        $prefix = Auth::user()->role;
         $category = Category::findOrFail($id);
 
         try {
             $category->delete();
-            return redirect(route('category.index'))->with('pesan', ['success', 'Kategori berhasil dihapus']);
+            return redirect(url($prefix . '/category'))->with('pesan', ['success', 'Kategori berhasil dihapus']);
         } catch (\Exception $e) {
-            return redirect(route('category.index'))->with('pesan', ['danger', 'Kategori gagal dihapus']);
+            return redirect(url($prefix . '/category'))->with('pesan', ['danger', 'Kategori gagal dihapus']);
         }
     }
 

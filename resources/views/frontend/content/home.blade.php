@@ -96,7 +96,7 @@
                                 <div class="d-flex align-items-end justify-content-between">
                                     <div class="d-flex align-items-center">
                                         <div class="small">
-                                            <div class="fw-bold">{{ $newest->author ?? 'Admin' }}</div>
+                                            <div class="fw-bold">{{ $newest->author->name }}</div>
                                             <div class="text-muted">
                                                 {{ \Carbon\Carbon::parse($newest->created_at)->translatedFormat('d F Y') }}
                                                 &middot;
