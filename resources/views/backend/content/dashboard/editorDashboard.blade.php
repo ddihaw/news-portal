@@ -1,9 +1,12 @@
 @extends('backend.layout.main')
 @section('content')
     <div class="container-fluid">
+        @php
+            $name = Auth::user()->name;
+        @endphp
 
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+            <h1 class="h3 mb-0 text-gray-800">Hai, {{ $name }}!</h1>
         </div>
 
         <div class="row">
@@ -51,7 +54,7 @@
                                 <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                     Artikel Terpublikasi
                                 </div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $usersTotal }}</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $wasPublished }}</div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-upload fa-2x text-gray-300"></i>
@@ -69,7 +72,7 @@
                                 <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
                                     Perlu Peninjauan
                                 </div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $usersTotal }}</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $inReview }}</div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-exclamation-triangle fa-2x text-gray-300"></i>

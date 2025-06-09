@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Menu;
 use App\Models\News;
 use App\Models\Page;
@@ -35,6 +34,7 @@ class LandingController extends Controller
 
         $news->increment('totalViews');
         $news->save();
+
         return view('frontend.content.article', compact('menus', 'news'));
     }
 
@@ -42,16 +42,19 @@ class LandingController extends Controller
     {
         $menus = $this->getMenu();
         $page = Page::findOrFail($id);
+
         return view('frontend.content.page', compact('menus', 'page'));
     }
 
     public function allArticles()
     {
         $menus = $this->getMenu();
+
         $latestNews = News::with('category')
             ->orderBy('created_at', 'desc')
             ->where('status', 'Terpublikasi')
             ->get();
+
         return view('frontend.content.allArticles', compact('menus', 'latestNews'));
     }
 
@@ -69,6 +72,7 @@ class LandingController extends Controller
             ->get();
 
         $menus = [];
+
         foreach ($menu as $data) {
             $menuType = $data->menuType;
             $menuUrl = "";
@@ -105,6 +109,7 @@ class LandingController extends Controller
                 'subMenus' => $items,
             ];
         }
+
         return $menus;
     }
 }

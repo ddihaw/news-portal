@@ -16,6 +16,8 @@ Route::get('/menu', [\App\Http\Controllers\LandingController::class, 'getMenu'])
 
 Route::get('/login', [\App\Http\Controllers\AuthController::class, 'index'])->name('auth.index')->middleware('guest');
 Route::post('/login', [\App\Http\Controllers\AuthController::class, 'verify'])->name('auth.verify');
+Route::get('/signup', [\App\Http\Controllers\AuthController::class, 'signup'])->name('auth.signup')->middleware('guest');
+Route::post('/signup', [\App\Http\Controllers\AuthController::class, 'signupProcess'])->name('auth.signupProcess');
 
 Route::group(['middleware' => 'auth:user'], function () {
     Route::prefix('admin')->middleware('role:admin')->group(function () {

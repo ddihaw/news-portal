@@ -100,7 +100,7 @@ class NewsController extends Controller
         $news->idCategory = $request->idCategory;
         $news->editorNotes = $request->editorNotes;
 
-        if ($prefix == 'editor') {
+        if ($prefix == 'editor' || $prefix == 'admin') {
             $news->status = $request->status;
         }
 

@@ -63,14 +63,13 @@ class UserController extends Controller
         $users->email = $request->email;
         $users->role = $request->role;
 
-        $currentUser = Auth::user(); // user yang sedang login
-        $isSelfUpdate = $currentUser->id === $users->id; // apakah dia sedang mengubah dirinya sendiri
+        $currentUser = Auth::user();
+        $isSelfUpdate = $currentUser->id === $users->id;
         $oldRole = $currentUser->role;
 
         try {
             $users->save();
-
-            // Jika admin sedang mengganti role dirinya sendiri
+            
             if ($isSelfUpdate && $oldRole === 'admin' && $users->role !== 'admin') {
                 Auth::logout();
                 return redirect('/logout');

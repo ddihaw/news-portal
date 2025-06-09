@@ -80,7 +80,7 @@
 
                     <div class="mb-3">
                         <label class="form-label">Status</label>
-                        @if ($prefix == 'editor')
+                        @if ($prefix == 'editor' || $prefix == 'admin')
                             <select name="status" class="form-control @error('status') is-invalid @enderror" id="status">
                                 <option value="">Pilih Status</option>
                                 @foreach ($statusList as $option)

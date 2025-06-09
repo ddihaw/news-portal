@@ -22,7 +22,8 @@ class EditorDashboardController extends Controller
         return view('backend.content.dashboard.editorDashboard', [
             'categoriesTotal' => $categories->count(),
             'newsTotal' => News::count(),
-            'usersTotal' => User::count(),
+            'wasPublished' => News::where('status', 'Terpublikasi')->count(),
+            'inReview' => News::where('status', 'Sedang Ditinjau')->count(),
             'categoryNames' => $categoryNames,
             'categoryNewsCounts' => $categoryNewsCounts,
             'latestNews' => $latestNews,

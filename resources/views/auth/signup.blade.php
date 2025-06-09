@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Login</title>
+    <title>Sign Up</title>
 
     <!-- Custom fonts for this template-->
     <link href="{{ asset('assets/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
@@ -28,54 +28,70 @@
 
         <!-- Outer Row -->
         <div class="row justify-content-center">
-
             <div class="col-xl-5 col-lg-12 col-md-9">
-
                 <div class="card o-hidden border-0 shadow-lg my-5">
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
                         <div class="p-5">
                             <div class="text-center">
-                                <h1 class="h4 text-gray-900 mb-4">Selamat Datang!</h1>
+                                <h1 class="h4 text-gray-900 mb-4">Buat Akun</h1>
                             </div>
                             @if (session()->has('pesan'))
                                 <div class="alert alert-{{ session('pesan')[0] }}">
                                     {{ session('pesan')[1] }}
                                 </div>
                             @endif
-                            <form class="user" method="post" action="{{ route('auth.verify') }}">
+
+                            <form class="user" method="post" action="{{ route('auth.signupProcess') }}">
                                 @csrf
                                 <div class="form-group">
-                                    <input type="email" name="email" class="form-control form-control-user"
-                                        id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Masukan email">
+                                    <input type="text" name="name"
+                                        class="form-control form-control-user @error('name') is-invalid @enderror"
+                                        id="name" placeholder="Masukan nama Anda" value="{{ old('name') }}">
+                                    @error('name')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
                                 </div>
+
                                 <div class="form-group">
-                                    <input type="password" name="password" class="form-control form-control-user"
-                                        id="exampleInputPassword" placeholder="Password">
+                                    <input type="email" name="email"
+                                        class="form-control form-control-user @error('email') is-invalid @enderror"
+                                        id="email" placeholder="Masukan email" value="{{ old('email') }}">
+                                    @error('email')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
                                 </div>
+
                                 <div class="form-group">
-                                    <div class="custom-control custom-checkbox small">
-                                        <input type="checkbox" class="custom-control-input" id="customCheck">
-                                        <label class="custom-control-label" for="customCheck">Ingat Saya</label>
-                                    </div>
+                                    <input type="password" name="password"
+                                        class="form-control form-control-user @error('password') is-invalid @enderror"
+                                        id="password" placeholder="Password">
+                                    @error('password')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
                                 </div>
-                                <input type="submit" value="Login" class="btn btn-primary btn-user btn-block">
+
+                                <div class="form-group">
+                                    <input type="password" name="password_confirmation"
+                                        class="form-control form-control-user @error('password_confirmation') is-invalid @enderror"
+                                        id="password_confirmation" placeholder="Konfirmasi Password">
+                                    @error('password_confirmation')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+                                <input type="submit" value="Buat Akun" class="btn btn-primary btn-user btn-block">
                             </form>
+
                             <hr>
                             <div class="text-center">
-                                <a class="small" href="forgot-password.html">Lupa Password?</a>
-                            </div>
-                            <div class="text-center">
-                                <a class="small" href={{ route('auth.signup') }}>Buat Akun Baru!</a>
+                                <a class="small" href="{{ route('auth.index') }}">Masuk</a>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
-
         </div>
-
     </div>
 
     <!-- Bootstrap core JavaScript-->
