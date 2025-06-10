@@ -63,9 +63,6 @@
                             </form>
                             <hr>
                             <div class="text-center">
-                                <a class="small" href="forgot-password.html">Lupa Password?</a>
-                            </div>
-                            <div class="text-center">
                                 <a class="small" href={{ route('auth.signup') }}>Buat Akun Baru!</a>
                             </div>
                         </div>

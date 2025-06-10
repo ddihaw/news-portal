@@ -6,7 +6,7 @@
                 <div class="col-lg-3">
                     <div class="d-flex align-items-center mt-lg-5 mb-4">
                         <!--<img class="img-fluid rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg"
-                                        alt="..." />-->
+                                                                                alt="..." />-->
                         <div class="ms-3">
                             <div class="fw-bold">{{ $news->author->name }}</div>
                             <div class="text-muted">{{ $news->category->nameCategory }}</div>
@@ -25,9 +25,6 @@
                                 {{ \Carbon\Carbon::parse($news->created_at)->translatedFormat('d F Y') }}
                                 &middot;
                             </div>
-                            <!-- Post categories
-                                    <a class="badge bg-secondary text-decoration-none link-light" href="#!">Web Design</a>
-                                    <a class="badge bg-secondary text-decoration-none link-light" href="#!">Freebies</a>-->
                         </header>
                         <!-- Preview image figure-->
                         <figure class="mb-4"><img class="img-fluid rounded" src="{{ route('storage', $news->newsImage) }}"
@@ -41,49 +38,30 @@
                     <section>
                         <div class="card bg-light">
                             <div class="card-body">
-                                <!-- Comment form -->
-                                <form class="mb-4"><textarea class="form-control" rows="3"
-                                        placeholder="Join the discussion and leave a comment!"></textarea></form>
-                                <!-- Comment with nested comments -->
-                                <div class="d-flex mb-4">
-                                    <!-- Parent comment -->
-                                    <div class="flex-shrink-0"><img class="rounded-circle"
-                                            src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                                    <div class="ms-3">
-                                        <div class="fw-bold">Commenter Name</div>
-                                        If you're going to lead a space frontier, it has to be government; it'll never be
-                                        private enterprise. Because the space frontier is dangerous, and it's expensive, and
-                                        it has unquantified risks.
-                                        <!-- Child comment 1 -->
-                                        <div class="d-flex mt-4">
-                                            <div class="flex-shrink-0"><img class="rounded-circle"
-                                                    src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                                            <div class="ms-3">
-                                                <div class="fw-bold">Commenter Name</div>
-                                                And under those conditions, you cannot establish a capital-market evaluation
-                                                of that enterprise. You can't get investors.
-                                            </div>
-                                        </div>
-                                        <!-- Child comment 2 -->
-                                        <div class="d-flex mt-4">
-                                            <div class="flex-shrink-0"><img class="rounded-circle"
-                                                    src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                                            <div class="ms-3">
-                                                <div class="fw-bold">Commenter Name</div>
-                                                When you put money directly to a problem, it makes a good headline.
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Single comment -->
-                                <div class="d-flex">
-                                    <div class="flex-shrink-0"><img class="rounded-circle"
-                                            src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                                    <div class="ms-3">
-                                        <div class="fw-bold">Commenter Name</div>
-                                        When I look at the universe and all the ways the universe wants to kill us, I find
-                                        it hard to reconcile that with statements of beneficence.
-                                    </div>
+                                @php $user = Auth::guard('user')->user(); @endphp
+
+                                <!-- Komentar form utama -->
+                                @if($user)
+                                    <form id="main-comment-form" class="comment-form mb-4">
+                                        @csrf
+                                        <input type="hidden" name="idNews" value="{{ $news->idNews }}">
+                                        <textarea class="form-control" rows="3" name="content"
+                                            placeholder="Tinggalkan komentar..."></textarea>
+                                        <button class="btn btn-primary mt-2" type="submit">Kirim</button>
+                                    </form>
+                                @else
+                                    <p><a href="{{ route('auth.index') }}">Login</a> untuk meninggalkan komentar.</p>
+                                @endif
+
+                                <!-- Container komentar -->
+                                <div id="comments-container">
+                                    @foreach($comments->where('parent_id', null)->sortByDesc('created_at') as $comment)
+                                        @include('partials.comment', ['comment' => $comment])
+                                    @endforeach
+
+                                    @if($news->comments->isEmpty())
+                                        <p class="text-muted">Belum ada komentar. Jadilah yang pertama!</p>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -92,4 +70,64 @@
             </div>
         </div>
     </section>
+
+    <!-- Script AJAX komentar -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.card-body').on('click', '.toggle-reply', function () {
+                const id = $(this).data('comment-id');
+                $('#reply-form-' + id).toggleClass('d-none');
+            });
+
+            $('.card-body').on('submit', '.comment-form', function (e) {
+                e.preventDefault();
+                const form = $(this);
+                const data = form.serialize();
+
+                $.ajax({
+                    url: "{{ route('comments.store') }}",
+                    method: "POST",
+                    data: data,
+                    success: function (res) {
+                        form[0].reset();
+                        const parentId = form.find('input[name="parent_id"]').val();
+                        if (parentId) {
+                            $('#replies-' + parentId).prepend(res.html);
+                            $('#reply-form-' + parentId).addClass('d-none');
+                        } else {
+                            $('#comments-container').prepend(res.html);
+
+                        }
+                    },
+                    error: function () {
+                        alert('Gagal mengirim komentar.');
+                    }
+                });
+            });
+
+            $('.card-body').on('submit', '.delete-comment-form', function (e) {
+                e.preventDefault();
+                if (!confirm("Yakin ingin menghapus komentar ini?")) return;
+
+                const form = $(this);
+                const commentId = form.data('comment-id');
+
+                $.ajax({
+                    url: `/comments/${commentId}`,
+                    method: 'POST',
+                    data: form.serialize(), // berisi _token dan _method
+                    success: function (res) {
+                        if (res.status === 'success') {
+                            $('#comment-' + res.comment_id).remove();
+                        }
+                    },
+                    error: function () {
+                        alert('Gagal menghapus komentar.');
+                    }
+                });
+            });
+        });
+    </script>
+
 @endsection

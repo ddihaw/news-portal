@@ -21,6 +21,12 @@ class News extends Model
     {
         return $this->belongsTo(User::class, 'idAuthor');
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'idNews');
+    }
+
 }
 
 ?>

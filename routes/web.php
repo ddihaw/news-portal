@@ -13,6 +13,8 @@ Route::get('/article/{id}', [\App\Http\Controllers\LandingController::class, 'ar
 Route::get('/page/{id}', [\App\Http\Controllers\LandingController::class, 'detailPage'])->name('landing.detailPage');
 Route::get('/article', [\App\Http\Controllers\LandingController::class, 'allArticles'])->name('landing.allArticles');
 Route::get('/menu', [\App\Http\Controllers\LandingController::class, 'getMenu'])->name('landing.getMenu');
+Route::post('/comments/store', [App\Http\Controllers\CommentController::class, 'store'])->name('comments.store');
+Route::delete('/comments/{comment}', [App\Http\Controllers\CommentController::class, 'destroy'])->name('comments.destroy');
 
 Route::get('/login', [\App\Http\Controllers\AuthController::class, 'index'])->name('auth.index')->middleware('guest');
 Route::post('/login', [\App\Http\Controllers\AuthController::class, 'verify'])->name('auth.verify');
@@ -107,6 +109,13 @@ Route::group(['middleware' => 'auth:user'], function () {
 
         Route::get('/user/modify/{id}', [App\Http\Controllers\UserController::class, 'modify'])->name('user.modify');
         Route::post('/user/modifyProcess', [App\Http\Controllers\UserController::class, 'modifyProcess'])->name('user.modifyProcess');
+    });
+
+    Route::prefix('user')->middleware('role:user')->group(function () {
+        Route::get('/profile/{id}', [App\Http\Controllers\LandingController::class, 'account'])->name(name: 'user.account');
+        Route::post('/profileSave', [App\Http\Controllers\LandingController::class, 'accountSave'])->name(name: 'user.accountSave');
+        Route::get('/resetPassword', [App\Http\Controllers\LandingController::class, 'resetPassword'])->name(name: 'user.resetPassword');
+        Route::post('/resetPasswordProcess', [App\Http\Controllers\LandingController::class, 'resetPasswordProcess'])->name(name: 'user.resetPasswordProcess');
     });
 
     Route::get('/logout', [\App\Http\Controllers\AuthController::class, 'logout'])->name('auth.logout');

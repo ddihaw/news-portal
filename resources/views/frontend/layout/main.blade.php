@@ -42,6 +42,7 @@
                                         data-bs-toggle="dropdown">
                                         {{ $data['menuName'] }}
                                     </a>
+
                                     <ul class="dropdown-menu dropdown-menu-end">
                                         @foreach ($data['subMenus'] as $submenu)
                                             <li>
@@ -61,14 +62,50 @@
                                 </li>
                             @endif
                         @endforeach
+                        @if (auth('user')->check())
+                            @php
+                                $prefix = auth('user')->user()->role;
+                                $name = auth('user')->user()->name;
+                                $id = auth('user')->user()->id;
+                            @endphp
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown"
+                                    role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="d-none d-lg-inline small me-2">Akun</span>
+                                </a>
+
+                                <!-- Dropdown - User Information -->
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                    aria-labelledby="userDropdown">
+                                    <a class="dropdown-item" href="{{ url($prefix . '/profile/' . $id) }}">
+                                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Profile
+                                    </a>
+                                    <a class="dropdown-item" href="{{ url($prefix . '/resetPassword') }}">
+                                        <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Reset Password
+                                    </a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Logout
+                                    </a>
+                                </div>
+                            </li>
+                        @else
+                            <li class="nav-item">
+                                <a class="nav-link" href={{ route('auth.index') }}>Masuk</a>
+                            </li>
+                        @endif
                     </ul>
                 </div>
-
             </div>
         </nav>
+
         <!-- Page Content-->
         @yield('content')
     </main>
+
     <!-- Footer-->
     <footer class="bg-primary py-4 mt-auto">
         <div class="container px-5">
@@ -76,6 +113,7 @@
                 <div class="col-auto">
                     <div class="small m-0 text-white">Copyright &copy; MHN 2025</div>
                 </div>
+
                 <div class="col-auto">
                     <a class="link-light small" href="#!">Privacy</a>
                     <span class="text-white mx-1">&middot;</span>
@@ -86,6 +124,28 @@
             </div>
         </div>
     </footer>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Pilih "Logout" di bawah ini jika Anda siap untuk mengakhiri sesi Anda saat ini.
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="{{ route('auth.logout') }}">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
