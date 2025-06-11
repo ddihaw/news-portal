@@ -75,4 +75,33 @@ class AuthorDashboardController extends Controller
             return redirect(url($prefix . '/resetPassword'))->with('pesan', ['danger', 'Password lama tidak sesuai']);
         }
     }
+
+    public function search(Request $request)
+    {
+        $id = Auth::user()->idAuthor;
+        $query = $request->input('q');
+
+        $results = News::where('idAuthor', $id)
+            ->where(function ($queryBuilder) use ($query) {
+                $queryBuilder->where('newsTitle', 'like', '%' . $query . '%')
+                    ->orWhere('newsContent', 'like', '%' . $query . '%');
+            })
+            ->orderBy('updated_at', 'desc')
+            ->paginate(10);
+
+        return view('backend.content.searchResults', compact('results', 'query'));
+    }
+
+    public function byCategory($id)
+    {
+        $idAuthor = Auth::user()->id;
+        $category = Category::findOrFail($id);
+
+        $news = News::where('idCategory', $id)
+            ->where('idAuthor', $idAuthor)
+            ->orderBy('updated_at', 'desc')
+            ->paginate(10);
+
+        return view('backend.content.newsByCategory', compact('category', 'news'));
+    }
 }

@@ -23,10 +23,8 @@ class CommentController extends Controller
             'parent_id' => $request->parent_id,
         ]);
 
-        // Muat relasi agar bisa ditampilkan langsung
         $comment->load(['user', 'replies']);
 
-        // AJAX response: kirim partial view yang sudah dirender
         if ($request->ajax()) {
             $html = view('partials.comment', compact('comment'))->render();
             return response()->json([
@@ -36,7 +34,6 @@ class CommentController extends Controller
             ]);
         }
 
-        // Non-AJAX: redirect biasa
         return back()->with('pesan', ['success', 'Komentar berhasil dikirim.']);
     }
 
@@ -44,13 +41,11 @@ class CommentController extends Controller
     {
         $user = Auth::guard('user')->user();
 
-        // Cek apakah komentar milik user yang login
         if ($comment->idUser !== $user->id) {
             abort(403, 'Tidak diizinkan menghapus komentar ini.');
         }
 
-        // Hapus komentar beserta balasannya
-        $comment->replies()->delete(); // opsional, jika ingin menghapus semua balasan juga
+        $comment->replies()->delete();
         $comment->delete();
 
         if (request()->ajax()) {

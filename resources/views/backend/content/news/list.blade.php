@@ -35,7 +35,7 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Gambar</th>
+                                <th>Penulis</th>
                                 <th>Judul</th>
                                 <th>Kategori</th>
                                 <th>Status</th>
@@ -52,14 +52,17 @@
                             @foreach ($news as $row)
                                 <tr>
                                     <td>{{ $i++ }}</td>
-                                    <td><img src="{{ route('storage', $row->newsImage) }}" width="50px" height="50px"></td>
+                                    <!--
+                                                <td><img src="{{ route('storage', $row->newsImage) }}" width="50px" height="50px"></td>
+                                            -->
+                                    <td>{{ $row->author->name }}</td>
                                     <td>{{$row->newsTitle}}</td>
                                     <td>{{$row->category->nameCategory}}</td>
                                     <td>{{$row->status}}</td>
                                     <td>{{$row->revision}}</td>
                                     <td>{{ \Carbon\Carbon::parse($row->updated_at)->diffForHumans() }}</td>
                                     <td>
-                                        @if (Auth::user()->role !== 'editor')
+                                        @if (Auth::user()->role == 'author')
                                             @if ($row->status == 'Ditolak')
                                                 <a href="{{ url($prefix . '/news/delete/' . $row->idNews) }}"
                                                     onclick="return confirm('Hapus Artikel Berita?')" class="btn btn-sm btn-danger">

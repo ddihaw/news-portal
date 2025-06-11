@@ -1,7 +1,7 @@
 @extends('frontend.layout.main')
 @section('content')
-    <section class="py-5"></section>
-    <div class="container px-5">
+    <section class="py-4"></section>
+    <div class="container px-3 px-md-5 mt-2 mb-5">
         <h1>Edit Data Pengguna</h1>
         @php
             $user = Auth::user();
@@ -62,10 +62,9 @@
                         @enderror
                     </div>
 
-
                     <input type="hidden" name="id" value="{{ $users->id }}">
                     <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-                    <a href="{{ route('landing.index') }}" class="btn btn-secondary">Kembali</a>
+                    <a href="{{ url()->previous() }}" class="btn btn-secondary">Kembali</a>
                 </form>
             </div>
         </div>

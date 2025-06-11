@@ -1,59 +1,68 @@
 @extends('frontend.layout.main')
+
 @section('content')
-    <section class="py-5">
-        <div class="container px-5 my-5">
-            <div class="row gx-5">
-                <div class="col-lg-3">
-                    <div class="d-flex align-items-center mt-lg-5 mb-4">
-                        <!--<img class="img-fluid rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg"
-                                                                                alt="..." />-->
-                        <div class="ms-3">
-                            <div class="fw-bold">{{ $news->author->name }}</div>
-                            <div class="text-muted">{{ $news->category->nameCategory }}</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-9">
-                    <!-- Post content-->
+    <section class="py-4 bg-light">
+        <div class="container px-3 px-md-5 mt-2 mb-5">
+            <div class="row gx-4 gy-5">
+                <!-- Main Content -->
+                <div class="col-12 col-lg-9 order-1 order-lg-0">
                     <article>
-                        <!-- Post header-->
+                        <!-- Title & Meta -->
                         <header class="mb-4">
-                            <!-- Post title-->
-                            <h1 class="fw-bolder mb-1">{{ $news->newsTitle }}</h1>
-                            <!-- Post meta content-->
-                            <div class="text-muted fst-italic mb-2">
-                                {{ \Carbon\Carbon::parse($news->created_at)->translatedFormat('d F Y') }}
-                                &middot;
+                            <h1 class="fw-bold mb-2">{{ $news->newsTitle }}</h1>
+                            <div class="text-muted fst-italic">
+                                Dipublikasikan pada
+                                {{ \Carbon\Carbon::parse($news->updated_at)->translatedFormat('d F Y') }}
                             </div>
                         </header>
-                        <!-- Preview image figure-->
-                        <figure class="mb-4"><img class="img-fluid rounded" src="{{ route('storage', $news->newsImage) }}"
-                                alt="{{ $news->newsTitle }}" /></figure>
-                        <!-- Post content-->
+
+                        <!-- Image -->
+                        <figure class="mb-4">
+                            <img class="img-fluid rounded shadow-sm w-100" src="{{ route('storage', $news->newsImage) }}"
+                                alt="{{ $news->newsTitle }}">
+                        </figure>
+
+                        <!-- Content -->
                         <section class="mb-5">
-                            <p class="fs-5 mb-4">{!! $news->newsContent !!}</p>
+                            <div class="fs-5 lh-lg text-justify">{!! $news->newsContent !!}</div>
                         </section>
                     </article>
-                    <!-- Comments section -->
-                    <section>
-                        <div class="card bg-light">
+
+                    <!-- Sidebar on mobile -->
+                    <div class="d-block d-lg-none mb-4">
+                        <div class="card border-0 shadow-sm p-3">
+                            <div class="d-flex align-items-center">
+                                <div class="ms-2">
+                                    <h6 class="fw-bold mb-1">{{ $news->author->name }}</h6>
+                                    <span class="badge bg-primary">{{ $news->category->nameCategory }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Komentar -->
+                    <section class="mt-4">
+                        <div class="card shadow-sm border-0">
+                            <div class="card-header bg-white">
+                                <h5 class="mb-0">Komentar</h5>
+                            </div>
                             <div class="card-body">
                                 @php $user = Auth::guard('user')->user(); @endphp
-
-                                <!-- Komentar form utama -->
                                 @if($user)
                                     <form id="main-comment-form" class="comment-form mb-4">
                                         @csrf
                                         <input type="hidden" name="idNews" value="{{ $news->idNews }}">
                                         <textarea class="form-control" rows="3" name="content"
-                                            placeholder="Tinggalkan komentar..."></textarea>
-                                        <button class="btn btn-primary mt-2" type="submit">Kirim</button>
+                                            placeholder="Tulis komentar Anda..."></textarea>
+                                        <button class="btn btn-primary mt-2" type="submit">Kirim Komentar</button>
                                     </form>
                                 @else
-                                    <p><a href="{{ route('auth.index') }}">Login</a> untuk meninggalkan komentar.</p>
+                                    <p>
+                                        <a href="{{ route('auth.index', ['redirect' => url()->full()]) }}">Login</a> untuk
+                                        meninggalkan komentar.
+                                    </p>
                                 @endif
 
-                                <!-- Container komentar -->
                                 <div id="comments-container">
                                     @foreach($comments->where('parent_id', null)->sortByDesc('created_at') as $comment)
                                         @include('partials.comment', ['comment' => $comment])
@@ -67,14 +76,26 @@
                         </div>
                     </section>
                 </div>
+
+                <!-- Sidebar on desktop only -->
+                <div class="col-12 col-lg-3 d-none d-lg-block order-lg-1">
+                    <div class="card border-0 shadow-sm p-3 mt-lg-5" style="top: 80px;">
+                        <div class="d-flex align-items-center">
+                            <div class="ms-2">
+                                <h6 class="fw-bold mb-1">{{ $news->author->name }}</h6>
+                                <span class="badge bg-primary">{{ $news->category->nameCategory }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Script AJAX komentar -->
+    <!-- AJAX Comments -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function () {
+        $(function () {
             $('.card-body').on('click', '.toggle-reply', function () {
                 const id = $(this).data('comment-id');
                 $('#reply-form-' + id).toggleClass('d-none');
@@ -85,24 +106,17 @@
                 const form = $(this);
                 const data = form.serialize();
 
-                $.ajax({
-                    url: "{{ route('comments.store') }}",
-                    method: "POST",
-                    data: data,
-                    success: function (res) {
-                        form[0].reset();
-                        const parentId = form.find('input[name="parent_id"]').val();
-                        if (parentId) {
-                            $('#replies-' + parentId).prepend(res.html);
-                            $('#reply-form-' + parentId).addClass('d-none');
-                        } else {
-                            $('#comments-container').prepend(res.html);
-
-                        }
-                    },
-                    error: function () {
-                        alert('Gagal mengirim komentar.');
+                $.post("{{ route('comments.store') }}", data, function (res) {
+                    form[0].reset();
+                    const parentId = form.find('input[name="parent_id"]').val();
+                    if (parentId) {
+                        $('#replies-' + parentId).prepend(res.html);
+                        $('#reply-form-' + parentId).addClass('d-none');
+                    } else {
+                        $('#comments-container').prepend(res.html);
                     }
+                }).fail(function () {
+                    alert('Gagal mengirim komentar.');
                 });
             });
 
@@ -113,21 +127,14 @@
                 const form = $(this);
                 const commentId = form.data('comment-id');
 
-                $.ajax({
-                    url: `/comments/${commentId}`,
-                    method: 'POST',
-                    data: form.serialize(), // berisi _token dan _method
-                    success: function (res) {
-                        if (res.status === 'success') {
-                            $('#comment-' + res.comment_id).remove();
-                        }
-                    },
-                    error: function () {
-                        alert('Gagal menghapus komentar.');
+                $.post(`/comments/${commentId}`, form.serialize(), function (res) {
+                    if (res.status === 'success') {
+                        $('#comment-' + res.comment_id).remove();
                     }
+                }).fail(function () {
+                    alert('Gagal menghapus komentar.');
                 });
             });
         });
     </script>
-
 @endsection

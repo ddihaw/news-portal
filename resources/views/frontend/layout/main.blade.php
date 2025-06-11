@@ -26,15 +26,58 @@
 <body class="d-flex flex-column">
     <main class="flex-shrink-0">
         <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-primary">
             <div class="container px-5">
                 <a class="navbar-brand" href="{{ route('landing.index') }}" style="font-weight: bold">PORTAL BERITA</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                <button class="navbar-toggler mb-1 mb-lg-1" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation"><span
                         class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item position-relative d-none d-lg-block">
+                            <button class="btn btn-outline-light" id="searchToggle" type="button">
+                                <i class="bi bi-search"></i>
+                            </button>
+
+                            <form id="searchForm" action="{{ route('news.search') }}" method="GET"
+                                class="d-none position-absolute top-100 start-0 mt-2 bg-white p-2 rounded shadow d-flex align-items-center"
+                                style="z-index: 1000; width: 300px;">
+                                <input type="text" name="q" class="form-control me-2" placeholder="Cari berita..."
+                                    value="{{ request('q') }}" style="flex: 1;">
+                                <button class="btn btn-outline-primary" type="submit">Cari</button>
+                            </form>
+                        </li>
+
+                        <li class="nav-item w-100 mt-2 d-flex d-lg-none">
+                            <form action="{{ route('news.search') }}" method="GET"
+                                class="d-flex w-100 bg-white p-2 rounded shadow align-items-center"
+                                style="z-index: 1000;">
+
+                                <input type="text" name="q" class="form-control me-2" placeholder="Cari berita..."
+                                    value="{{ request('q') }}" style="flex: 1; border-width: 1px;">
+
+                                <button class="btn btn-outline-primary" type="submit"
+                                    style="border-width: 1px;">Cari</button>
+                            </form>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
+                                Kategori
+                            </a>
+
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                @foreach ($categories as $cat)
+                                    <li>
+                                        <a href="{{ route('news.byCategory', $cat->idCategory) }}" class="dropdown-item">
+                                            {{ $cat->nameCategory }}
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </li>
+
                         @foreach ($menus as $data)
                             @if(count($data['subMenus']) > 0)
                                 <li class="nav-item dropdown">
@@ -55,7 +98,7 @@
                                     </ul>
                                 </li>
                             @else
-                                <li class="nav-item">
+                                <li class="nav-item dropdown">
                                     <a class="nav-link" href="{{ $data['menuUrl'] }}" target="{{ $data['menuTarget'] }}">
                                         {{ $data['menuName'] }}
                                     </a>
@@ -68,19 +111,34 @@
                                 $name = auth('user')->user()->name;
                                 $id = auth('user')->user()->id;
                             @endphp
+
+                            @if ($prefix !== 'user')
+                                <li class="nav-item">
+                                    <a class="nav-link" href={{ url($prefix . '/') }}>Dashboard</a>
+                                </li>
+                            @else
+                            @endif
+
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown"
                                     role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span class="d-none d-lg-inline small me-2">Akun</span>
+                                    <span class="me-2">Akun</span>
                                 </a>
 
                                 <!-- Dropdown - User Information -->
                                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                     aria-labelledby="userDropdown">
-                                    <a class="dropdown-item" href="{{ url($prefix . '/profile/' . $id) }}">
-                                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        Profile
-                                    </a>
+                                    @if ($prefix !== 'user')
+                                        <a class="dropdown-item" href="{{ url($prefix . '/user/modify/' . $id) }}">
+                                            <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                            Profile
+                                        </a>
+                                    @else
+                                        <a class="dropdown-item" href="{{ url($prefix . '/profile/' . $id) }}">
+                                            <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                            Profile
+                                        </a>
+                                    @endif
                                     <a class="dropdown-item" href="{{ url($prefix . '/resetPassword') }}">
                                         <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                         Reset Password
@@ -94,7 +152,7 @@
                             </li>
                         @else
                             <li class="nav-item">
-                                <a class="nav-link" href={{ route('auth.index') }}>Masuk</a>
+                                <a class="nav-link" href={{ route('auth.index', ['redirect' => url()->full()]) }}>Masuk</a>
                             </li>
                         @endif
                     </ul>
@@ -150,6 +208,24 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
     <script src="{{ asset('assets/js/scripts.js') }}"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const toggleBtn = document.getElementById('searchToggle');
+            const searchForm = document.getElementById('searchForm');
+
+            toggleBtn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                searchForm.classList.toggle('d-none');
+            });
+
+            document.addEventListener('click', function (e) {
+                if (!searchForm.contains(e.target) && e.target !== toggleBtn && !toggleBtn.contains(e.target)) {
+                    searchForm.classList.add('d-none');
+                }
+            });
+        });
+    </script>
 
 </body>
 

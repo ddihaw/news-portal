@@ -48,7 +48,7 @@
                     </div>
 
                     <button type="submit" class="btn btn-primary">Simpan</button>
-                    <a href="{{ url($prefix . '/') }}" class="btn btn-secondary">Kembali</a>
+                    <a href="{{ url()->previous() }}" class="btn btn-secondary">Kembali</a>
                 </form>
             </div>
         </div>

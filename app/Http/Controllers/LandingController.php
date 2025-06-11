@@ -7,6 +7,7 @@ use App\Models\News;
 use App\Models\Page;
 use App\Models\Comment;
 use App\Models\User;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Auth;
 use Hash;
@@ -16,9 +17,11 @@ class LandingController extends Controller
     public function index()
     {
         $menus = $this->getMenu();
+        $categories = Category::all();
+
 
         $latestNews = News::with('category')
-            ->orderBy('created_at', 'desc')
+            ->orderBy('updated_at', 'desc')
             ->where('status', 'Terpublikasi')
             ->take(8)
             ->get();
@@ -29,7 +32,7 @@ class LandingController extends Controller
             ->get()
             ->take(5);
 
-        return view('frontend.content.home', compact('menus', 'latestNews', 'popularNews'));
+        return view('frontend.content.home', compact('menus', 'latestNews', 'popularNews', 'categories'));
     }
 
     public function articlePage($id)
@@ -42,7 +45,7 @@ class LandingController extends Controller
 
         $comments = Comment::with(['user', 'replies.user'])
             ->where('idNews', $news->idNews)
-            ->whereNull('parent_id') // hanya komentar utama
+            ->whereNull('parent_id')
             ->latest()
             ->get();
 
@@ -186,5 +189,36 @@ class LandingController extends Controller
         } else {
             return redirect(route('user.resetPassword'))->with('pesan', ['danger', 'Password lama tidak sesuai']);
         }
+    }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('q');
+
+        $results = News::where('status', 'Terpublikasi')
+            ->where(function ($queryBuilder) use ($query) {
+                $queryBuilder->where('newsTitle', 'like', '%' . $query . '%')
+                    ->orWhere('newsContent', 'like', '%' . $query . '%');
+            })
+            ->orderBy('updated_at', 'desc')
+            ->paginate(10);
+
+        $menus = $this->getMenu();
+
+        return view('frontend.content.searchResults', compact('results', 'query', 'menus'));
+    }
+
+    public function byCategory($id)
+    {
+        $menus = $this->getMenu();
+
+        $category = Category::findOrFail($id);
+
+        $news = News::where('idCategory', $id)
+            ->where('status', 'Terpublikasi')
+            ->orderBy('updated_at', 'desc')
+            ->paginate(10);
+
+        return view('frontend.content.newsByCategory', compact('category', 'news', 'menus'));
     }
 }

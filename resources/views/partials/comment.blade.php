@@ -2,7 +2,6 @@
     <div class="d-flex align-items-center gap-2">
         <strong>{{ $comment->user->name }}</strong>
 
-        <!-- Garis vertikal -->
         <div class="vr mx-2"></div>
 
         <span style="font-size: small">{{ \Carbon\Carbon::parse($comment->created_at)->diffForHumans() }}</span>
@@ -26,7 +25,7 @@
     @endif
 
     @php $user = Auth::guard('user')->user(); @endphp
-    @if ($user && $user->id === $comment->idUser)
+    @if ($user && $user->id === $comment->idUser || $user->role == 'admin')
         <form method="POST" class="d-inline delete-comment-form" data-comment-id="{{ $comment->id }}">
             @csrf
             @method('DELETE')
@@ -34,8 +33,6 @@
         </form>
     @endif
 
-
-    <!-- Balasan -->
     <div class="ms-4 mt-2" id="replies-{{ $comment->id }}">
         @foreach($comment->replies as $reply)
             @include('partials.comment', ['comment' => $reply])

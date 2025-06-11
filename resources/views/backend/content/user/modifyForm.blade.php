@@ -55,14 +55,9 @@
                         @enderror
                     </div>
 
-
                     <input type="hidden" name="id" value="{{ $users->id }}">
                     <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-                    @if ($role === 'admin')
-                        <a href="{{ url($role . '/user') }}" class="btn btn-secondary">Kembali</a>
-                    @else
-                        <a href="{{ url($role . '/') }}" class="btn btn-secondary">Kembali</a>
-                    @endif
+                    <a href="{{ url()->previous() }}" class="btn btn-secondary">Kembali</a>
                 </form>
             </div>
         </div>

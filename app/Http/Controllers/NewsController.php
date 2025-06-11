@@ -77,11 +77,17 @@ class NewsController extends Controller
     {
         $news = News::findOrFail($id);
         $categories = Category::all();
+
         if (!$news) {
             $prefix = Auth::user()->role;
             return redirect(url($prefix . '/news'))->with('pesan', ['danger', 'Berita tidak ditemukan']);
         }
-        return view('backend.content.news.modifyForm', compact('news', 'categories'));
+
+        if (Auth::user()->role == 'author' && $news->status == 'Ditolak') {
+            return redirect()->back()->with('error', 'Artikel yang ditolak tidak bisa diedit.');
+        } else {
+            return view('backend.content.news.modifyForm', compact('news', 'categories'));
+        }
     }
 
     public function modifyProcess(Request $request)

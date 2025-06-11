@@ -9,9 +9,11 @@ Route::get('/', function () {
 */
 
 Route::get('/', [\App\Http\Controllers\LandingController::class, 'index'])->name('landing.index');
+Route::get('/search', [\App\Http\Controllers\LandingController::class, 'search'])->name('news.search');
 Route::get('/article/{id}', [\App\Http\Controllers\LandingController::class, 'articlePage'])->name('landing.articlePage');
 Route::get('/page/{id}', [\App\Http\Controllers\LandingController::class, 'detailPage'])->name('landing.detailPage');
 Route::get('/article', [\App\Http\Controllers\LandingController::class, 'allArticles'])->name('landing.allArticles');
+Route::get('/getNews/{id}', [\App\Http\Controllers\LandingController::class, 'byCategory'])->name('news.byCategory');
 Route::get('/menu', [\App\Http\Controllers\LandingController::class, 'getMenu'])->name('landing.getMenu');
 Route::post('/comments/store', [App\Http\Controllers\CommentController::class, 'store'])->name('comments.store');
 Route::delete('/comments/{comment}', [App\Http\Controllers\CommentController::class, 'destroy'])->name('comments.destroy');
@@ -24,7 +26,9 @@ Route::post('/signup', [\App\Http\Controllers\AuthController::class, 'signupProc
 Route::group(['middleware' => 'auth:user'], function () {
     Route::prefix('admin')->middleware('role:admin')->group(function () {
         Route::get('/', [App\Http\Controllers\AdminDashboardController::class, 'index'])->name(name: 'dashboard.index');
+        Route::get('/search', [\App\Http\Controllers\AdminDashboardController::class, 'search'])->name('dashboard.search');
         Route::get('/profile', [App\Http\Controllers\AdminDashboardController::class, 'profile'])->name(name: 'dashboard.profile');
+        Route::get('/getNews/{id}', [\App\Http\Controllers\AdminDashboardController::class, 'byCategory'])->name('news.byCategory');
         Route::get('/resetPassword', [App\Http\Controllers\AdminDashboardController::class, 'resetPassword'])->name(name: 'dashboard.resetPassword');
         Route::post('/resetPasswordProcess', [App\Http\Controllers\AdminDashboardController::class, 'resetPasswordProcess'])->name(name: 'dashboard.resetPasswordProcess');
 
@@ -69,6 +73,8 @@ Route::group(['middleware' => 'auth:user'], function () {
 
     Route::prefix('editor')->middleware('role:editor')->group(function () {
         Route::get('/', [App\Http\Controllers\EditorDashboardController::class, 'index'])->name(name: 'dashboard.index');
+        Route::get('/search', [\App\Http\Controllers\EditorDashboardController::class, 'search'])->name('dashboard.search');
+        Route::get('/getNews/{id}', [\App\Http\Controllers\EditorDashboardController::class, 'byCategory'])->name('news.byCategory');
         Route::get('/profile', [App\Http\Controllers\EditorDashboardController::class, 'profile'])->name(name: 'dashboard.profile');
         Route::get('/resetPassword', [App\Http\Controllers\EditorDashboardController::class, 'resetPassword'])->name(name: 'dashboard.resetPassword');
         Route::post('/resetPasswordProcess', [App\Http\Controllers\EditorDashboardController::class, 'resetPasswordProcess'])->name(name: 'dashboard.resetPasswordProcess');
@@ -95,6 +101,8 @@ Route::group(['middleware' => 'auth:user'], function () {
 
     Route::prefix('author')->middleware('role:author')->group(function () {
         Route::get('/', [App\Http\Controllers\AuthorDashboardController::class, 'index'])->name(name: 'dashboard.index');
+        Route::get('/search', [\App\Http\Controllers\AuthorDashboardController::class, 'search'])->name('dashboard.search');
+        Route::get('/getNews/{id}', [\App\Http\Controllers\AuthorDashboardController::class, 'byCategory'])->name('news.byCategory');
         Route::get('/profile', [App\Http\Controllers\AuthorDashboardController::class, 'profile'])->name(name: 'dashboard.profile');
         Route::get('/resetPassword', [App\Http\Controllers\AuthorDashboardController::class, 'resetPassword'])->name(name: 'dashboard.resetPassword');
         Route::post('/resetPasswordProcess', [App\Http\Controllers\AuthorDashboardController::class, 'resetPasswordProcess'])->name(name: 'dashboard.resetPasswordProcess');

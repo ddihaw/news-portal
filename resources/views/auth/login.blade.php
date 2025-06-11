@@ -65,6 +65,9 @@
                             <div class="text-center">
                                 <a class="small" href={{ route('auth.signup') }}>Buat Akun Baru!</a>
                             </div>
+                            <div class="text-center">
+                                <a class="small" href={{ route('landing.index') }}>Kembali ke Beranda</a>
+                            </div>
                         </div>
                     </div>
                 </div>

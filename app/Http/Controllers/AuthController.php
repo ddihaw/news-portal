@@ -10,8 +10,12 @@ use Hash;
 
 class AuthController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->has('redirect') && Str::startsWith($request->redirect, url('/'))) {
+            session(['url.intended' => $request->redirect]);
+        }
+
         return view('auth.login');
     }
 
@@ -25,18 +29,17 @@ class AuthController extends Controller
         if (Auth::guard('user')->attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = Auth::guard('user')->user();
 
-            switch ($user->role) {
-                case 'admin':
-                    return redirect()->intended('/admin');
-                case 'editor':
-                    return redirect()->intended('/editor');
-                case 'author':
-                    return redirect()->intended('/author');
-            }
+            $defaultRedirect = match ($user->role) {
+                'admin' => '/admin',
+                'editor' => '/editor',
+                'author' => '/author',
+                default => '/',
+            };
+
+            return redirect()->intended($defaultRedirect);
         } else {
             return redirect(route('auth.index'))->with('pesan', ['danger', 'Email dan Password salah!']);
         }
-
     }
 
     public function signup()
