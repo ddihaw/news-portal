@@ -12,17 +12,17 @@
     <title>Dashboard</title>
 
     <!-- Custom fonts for this template-->
-    <link href="{{asset('assets/vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{ secure_asset('assets/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="{{ asset('assets/css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <link href="{{ secure_asset('assets/css/sb-admin-2.min.css') }}" rel="stylesheet">
 
     <!-- Bootstrap core JavaScript-->
-    <script src="{{ asset('assets/vendor/jquery/jquery.min.js') }}"></script>
-    <script src="{{asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{ secure_asset('assets/vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ secure_asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
 </head>
@@ -43,10 +43,10 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url($prefix . '/') }}">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
-                </div>
-                <div class="sidebar-brand-text mx-3">PORTAL BERITA</div>
+                <img src="{{ secure_asset('storage/images/logo.png') }}" alt="Logo"
+                    class="sidebar-logo img-fluid d-inline d-md-none">
+                <img src="{{ secure_asset('storage/images/banner-logo.png') }}" alt="Banner Logo"
+                    class="sidebar-banner img-fluid d-none d-md-inline">
             </a>
 
             <hr class="sidebar-divider my-0">
@@ -209,10 +209,10 @@
                         </li>
 
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                            <a class="nav-link dropdown-toggle hover-custom" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Filter Kategori</span>
-                                <i class="bi bi-tags"></i>
+                                <i class="bi bi-tags-fill"></i>
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -226,9 +226,10 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('landing.index') }}" role="button" aria-expanded="false">
-                                <span class="ml-1 d-none d-lg-inline text-gray-600 small">Beranda</span>
-                                <i class="bi bi-house"></i>
+                            <a class="nav-link hover-custom" href="{{ route('landing.index') }}" role="button"
+                                aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Beranda</span>
+                                <i class="bi bi-house-fill"></i>
                             </a>
                         </li>
 
@@ -236,11 +237,11 @@
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                            <a class="nav-link dropdown-toggle hover-custom" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ $name }}</span>
                                 <img class="img-profile rounded-circle"
-                                    src="{{ asset('assets/img/undraw_profile.svg') }}">
+                                    src="{{ secure_asset('assets/img/undraw_profile.svg') }}">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -298,7 +299,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Apakah Anda yakin?</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
@@ -314,17 +315,17 @@
     </div>
 
     <!-- Core plugin JavaScript-->
-    <script src="{{ asset('assets/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+    <script src="{{ secure_asset('assets/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="{{ asset('assets/js/sb-admin-2.min.js') }}"></script>
+    <script src="{{ secure_asset('assets/js/sb-admin-2.min.js') }}"></script>
 
     <!-- Page level plugins -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="{{ asset('assets/js/demo/chart-area-demo.js') }}"></script>
-    <script src="{{ asset('assets/js/demo/chart-pie-demo.js') }}"></script>
+    <script src="{{ secure_asset('assets/js/demo/chart-area-demo.js') }}"></script>
+    <script src="{{ secure_asset('assets/js/demo/chart-pie-demo.js') }}"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/ckeditor5-classic-plus@41.3.0/build/ckeditor.min.js"></script>
 

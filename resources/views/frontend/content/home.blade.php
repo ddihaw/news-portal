@@ -1,9 +1,12 @@
 @extends('frontend.layout.main')
 @section('content')
+    @php
+        $badgeColors = ['primary', 'success', 'danger', 'warning', 'info', 'dark', 'secondary', 'custom'];
+    @endphp
     <section class="py-5 bg-light">
-        <div class="container px-5">
+        <div class="container px-5 mt-5">
             <div class="row gx-5">
-                <div class="col-xl-8">
+                <div class="col-xl-8 d-flex flex-column h-100">
                     <h2 class="fw-bolder fs-5 mb-4">Berita Populer</h2>
                     <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-indicators">
@@ -22,7 +25,7 @@
                                         alt="Slide {{ $index + 1 }}">
                                     <div class="overlay"></div>
                                     <div class="carousel-caption">
-                                        <p style="margin-bottom: 4px;">{{ $top->category->nameCategory  }} |
+                                        <p style="margin-bottom: 2px;">{{ $top->category->nameCategory  }} |
                                             {{ \Carbon\Carbon::parse($top->created_at)->diffForHumans() }}
                                         </p>
                                         <a class="text-decoration-none link-light stretched-link"
@@ -46,23 +49,22 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-xl-4">
-                    <div class="card border-0 h-100">
-                        <div class="card-body p-4">
-                            <div class="d-flex h-100 align-items-center justify-content-center">
-                                <div class="text-center">
-                                    <div class="h6 fw-bolder">Contact</div>
-                                    <p class="text-muted mb-4">
-                                        For press inquiries, email us at
-                                        <br />
-                                        <a href="#!">press@domain.com</a>
-                                    </p>
-                                    <div class="h6 fw-bolder">Follow us</div>
-                                    <a class="fs-5 px-2 link-dark" href="#!"><i class="bi-twitter"></i></a>
-                                    <a class="fs-5 px-2 link-dark" href="#!"><i class="bi-facebook"></i></a>
-                                    <a class="fs-5 px-2 link-dark" href="#!"><i class="bi-linkedin"></i></a>
-                                    <a class="fs-5 px-2 link-dark" href="#!"><i class="bi-youtube"></i></a>
-                                </div>
+
+                <div class="col-xl-4 d-flex flex-column h-100">
+                    <div class="card card-top-kategori mt-5">
+                        <div class="card-body text-center">
+                            <h5 class="fw-bold mb-2">Top Kategori</h5>
+                            <p class="text-muted small mb-4">Jelajahi berita berdasarkan topik yang sedang ramai.</p>
+                            <div class="d-flex flex-wrap justify-content-center gap-2">
+                                @foreach ($topCategories as $i => $category)
+                                    @php
+                                        $color = $badgeColors[$i % count($badgeColors)];
+                                    @endphp
+                                    <a href="{{ route('newsIndex.byCategory', $category->idCategory) }}"
+                                        class="category-badge bg-{{ $color }}">
+                                        <i class="bi bi-tag me-1"></i> {{ $category->nameCategory }}
+                                    </a>
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -71,7 +73,7 @@
         </div>
     </section>
     <!-- Blog preview section-->
-    <section class="py-5">
+    <section class="py-0 bg-light">
         <div class="container px-5">
             <h2 class="fw-bolder fs-5 mb-4">Berita Terbaru</h2>
             <div class="row gx-5">
@@ -81,7 +83,7 @@
                             <img class="card-img-top" src="{{ route('storage', $newest->newsImage) }}"
                                 alt="{{ $newest->newsTitle }}" />
                             <div class="card-body p-4">
-                                <div class="badge bg-primary bg-gradient rounded-pill mb-2">
+                                <div class="badge bg-custom bg-gradient rounded-pill mb-2">
                                     {{ $newest->category->nameCategory }}
                                 </div>
                                 <a class="text-decoration-none link-dark stretched-link"
@@ -111,9 +113,9 @@
                     </div>
                 @endforeach
 
-                <div class="text-end mb-5 mb-xl-0">
+                <div class="text-end mb-5 mb-xl-0 py-4">
                     <a class="text-decoration-none" href="{{ route('landing.allArticles') }}">
-                        Lebih banyak
+                        Lihat Selengkapnya
                         <i class="bi bi-arrow-right"></i>
                     </a>
                 </div>

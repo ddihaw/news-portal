@@ -57,7 +57,7 @@
 
                     <input type="hidden" name="id" value="{{ $users->id }}">
                     <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-                    <a href="{{ url()->previous() }}" class="btn btn-secondary">Kembali</a>
+                    <a href="{{ url($role . '/') }}" class="btn btn-secondary">Kembali</a>
                 </form>
             </div>
         </div>

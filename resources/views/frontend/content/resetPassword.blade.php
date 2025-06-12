@@ -45,7 +45,7 @@
                     </div>
 
                     <button type="submit" class="btn btn-primary">Simpan</button>
-                    <a href="{{ url()->previous() }}" class="btn btn-secondary">Kembali</a>
+                    <a href="{{ session('previous_url', route('landing.index')) }}" class="btn btn-secondary">Kembali</a>
                 </form>
             </div>
         </div>

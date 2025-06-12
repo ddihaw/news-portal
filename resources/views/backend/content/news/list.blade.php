@@ -53,8 +53,8 @@
                                 <tr>
                                     <td>{{ $i++ }}</td>
                                     <!--
-                                                <td><img src="{{ route('storage', $row->newsImage) }}" width="50px" height="50px"></td>
-                                            -->
+                                                        <td><img src="{{ route('storage', $row->newsImage) }}" width="50px" height="50px"></td>
+                                                    -->
                                     <td>{{ $row->author->name }}</td>
                                     <td>{{$row->newsTitle}}</td>
                                     <td>{{$row->category->nameCategory}}</td>

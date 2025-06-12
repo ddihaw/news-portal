@@ -13,7 +13,7 @@ Route::get('/search', [\App\Http\Controllers\LandingController::class, 'search']
 Route::get('/article/{id}', [\App\Http\Controllers\LandingController::class, 'articlePage'])->name('landing.articlePage');
 Route::get('/page/{id}', [\App\Http\Controllers\LandingController::class, 'detailPage'])->name('landing.detailPage');
 Route::get('/article', [\App\Http\Controllers\LandingController::class, 'allArticles'])->name('landing.allArticles');
-Route::get('/getNews/{id}', [\App\Http\Controllers\LandingController::class, 'byCategory'])->name('news.byCategory');
+Route::get('/getNews/{id}', [\App\Http\Controllers\LandingController::class, 'byCategory'])->name('newsIndex.byCategory');
 Route::get('/menu', [\App\Http\Controllers\LandingController::class, 'getMenu'])->name('landing.getMenu');
 Route::post('/comments/store', [App\Http\Controllers\CommentController::class, 'store'])->name('comments.store');
 Route::delete('/comments/{comment}', [App\Http\Controllers\CommentController::class, 'destroy'])->name('comments.destroy');

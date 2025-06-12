@@ -2693,20 +2693,20 @@ fieldset:disabled a.btn {
 
 .btn-primary {
     color: #fff;
-    background-color: #4e73df;
-    border-color: #4e73df
+    background-color: #012d61;
+    border-color: #012d61
 }
 
 .btn-primary:hover {
     color: #fff;
-    background-color: #2e59d9;
-    border-color: #2653d4
+    background-color: #2452db;
+    border-color: #2452db
 }
 
 .btn-primary.focus,
 .btn-primary:focus {
     color: #fff;
-    background-color: #2e59d9;
+    background-color: #2452db;
     border-color: #2653d4;
     box-shadow: 0 0 0 .2rem rgba(105, 136, 228, .5)
 }
@@ -3309,12 +3309,12 @@ fieldset:disabled a.btn {
 
 .btn-link {
     font-weight: 400;
-    color: #4e73df;
+    color: #012d61;
     text-decoration: none
 }
 
 .btn-link:hover {
-    color: #224abe;
+    color: #2452db;
     text-decoration: underline
 }
 
@@ -3611,9 +3611,15 @@ input[type=submit].btn-block {
 
 .dropdown-item:focus,
 .dropdown-item:hover {
-    color: #2e2f37;
+    color: #012d61;
     text-decoration: none;
     background-color: #eaecf4
+}
+
+.dropdown-item:hover i {
+    color: #012d61 !important;
+    transform: scale(1.2) !important;
+    transition: all 0.3s ease !important;
 }
 
 .dropdown-item.active,
@@ -4450,7 +4456,11 @@ input[type=submit].btn-block {
 
 .nav-link:focus,
 .nav-link:hover {
-    text-decoration: none
+    text-decoration: none;
+}
+
+.hover-custom:hover span {
+    color: #012d61 !important;
 }
 
 .nav-link.disabled {
@@ -11099,8 +11109,8 @@ a:focus {
 }
 
 .bg-gradient-primary {
-    background-color: #4e73df;
-    background-image: linear-gradient(180deg, #4e73df 10%, #224abe 100%);
+    background-color: #0d47a1;
+    background-image: linear-gradient(180deg, #012d61, #f5189b);
     background-size: cover
 }
 
@@ -11182,6 +11192,49 @@ a:focus {
     background-color: #3a3b45 !important
 }
 
+/* Ukuran default */
+.sidebar-logo {
+    max-height: 40px;
+    display: none;
+}
+
+.sidebar-banner {
+    max-height: 40px;
+}
+
+/* Saat sidebar collapse */
+.sidebar.toggled .sidebar-logo {
+    display: inline !important;
+    max-height: 35px; /* Atur agar tidak terlalu besar */
+}
+.sidebar.toggled .sidebar-banner {
+    display: none !important;
+}
+
+/* Saat sidebar expand */
+.sidebar:not(.toggled) .sidebar-logo {
+    display: none !important;
+}
+
+.sidebar:not(.toggled) .sidebar-banner {
+    display: inline !important;
+}
+
+/* Efek hover untuk logo (collapsed) dan banner (expanded) */
+.sidebar-logo:hover,
+.sidebar-banner:hover {
+    opacity: 0.85;
+    transform: scale(1.05);
+    transition: all 0.3s ease;
+}
+
+/* Pastikan ini juga ada agar gambar tidak terlalu besar */
+.sidebar-logo,
+.sidebar-banner {
+    display: inline-block; /* Diperlukan agar transform bisa bekerja */
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
 .o-hidden {
     overflow: hidden !important
 }
@@ -11241,6 +11294,38 @@ a:focus {
 
 .border-left-primary {
     border-left: .25rem solid #4e73df !important
+}
+
+.border-left-gradient-blue {
+    position: relative;
+    overflow: hidden;
+}
+
+.border-left-gradient-blue::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0.25rem;
+    height: 100%;
+    background: linear-gradient(180deg, #4e73df, #1cc88a);
+    border-radius: 0.25rem 0 0 0.25rem;
+}
+
+.border-left-gradient-green {
+    position: relative;
+    overflow: hidden;
+}
+
+.border-left-gradient-green::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0.25rem;
+    height: 100%;
+    background: linear-gradient(180deg, #1cc88a, #ff5eae);
+    border-radius: 0.25rem 0 0 0.25rem;
 }
 
 .border-bottom-primary {
@@ -11514,7 +11599,7 @@ a:focus {
 }
 
 .topbar.navbar-light .navbar-nav .nav-item .nav-link:hover {
-    color: #b7b9cc
+    color: #012d61
 }
 
 .topbar.navbar-light .navbar-nav .nav-item .nav-link:active {

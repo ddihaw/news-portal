@@ -1,46 +1,88 @@
 @extends('frontend.layout.main')
 
+@section('meta')
+    <meta property="og:title" content="{{ $news->newsTitle }}" />
+    <meta property="og:description" content="{{ Str::limit(strip_tags($news->newsContent), 150) }}" />
+    <meta property="og:url" content="{{ url()->current() }}" />
+    <meta property="og:image" content="{{ secure_asset('storage/news/' . $news->newsImage) }}" />
+    <meta property="og:type" content="article" />
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $news->newsTitle }}">
+    <meta name="twitter:description" content="{{ Str::limit(strip_tags($news->newsContent), 150) }}">
+    <meta name="twitter:image" content="{{ asset('storage/news/' . $news->newsImage) }}">
+@endsection
+
 @section('content')
-    <section class="py-4 bg-light">
-        <div class="container px-3 px-md-5 mt-2 mb-5">
+    <section class="py-5 bg-light">
+        <div class="container px-5 px-md-5 mt-5 mb-5">
             <div class="row gx-4 gy-5">
                 <!-- Main Content -->
                 <div class="col-12 col-lg-9 order-1 order-lg-0">
                     <article>
-                        <!-- Title & Meta -->
                         <header class="mb-4">
                             <h1 class="fw-bold mb-2">{{ $news->newsTitle }}</h1>
                             <div class="text-muted fst-italic">
                                 Dipublikasikan pada
                                 {{ \Carbon\Carbon::parse($news->updated_at)->translatedFormat('d F Y') }}
+                                &nbsp;•&nbsp;
+                                <i class="fas fa-eye"></i> {{ number_format($news->totalViews) }} tayangan
                             </div>
                         </header>
 
-                        <!-- Image -->
-                        <figure class="mb-4">
+                        <figure class="mb-2">
                             <img class="img-fluid rounded shadow-sm w-100" src="{{ route('storage', $news->newsImage) }}"
                                 alt="{{ $news->newsTitle }}">
                         </figure>
 
-                        <!-- Content -->
+                        <div class="mb-4">
+                            <div class="card border-0 shadow-sm p-3">
+                                <h5 class="mb-3">Bagikan artikel ini:</h5>
+                                <div class="social-share-wrapper">
+                                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url()->current()) }}"
+                                        class="social-icon social-facebook" target="_blank" title="Bagikan ke Facebook">
+                                        <i class="fab fa-facebook-f"></i>
+                                    </a>
+                                    <a href="https://twitter.com/intent/tweet?url={{ urlencode(url()->current()) }}&text={{ urlencode($news->newsTitle) }}"
+                                        class="social-icon social-twitter" target="_blank" title="Bagikan ke Twitter">
+                                        <i class="fab fa-twitter"></i>
+                                    </a>
+                                    <a href="https://api.whatsapp.com/send?text={{ urlencode($news->newsTitle . ' ' . url()->current()) }}"
+                                        class="social-icon social-whatsapp" target="_blank" title="Bagikan ke WhatsApp">
+                                        <i class="fab fa-whatsapp"></i>
+                                    </a>
+                                    <a href="https://t.me/share/url?url={{ urlencode(url()->current()) }}&text={{ urlencode($news->newsTitle) }}"
+                                        class="social-icon social-telegram" target="_blank" title="Bagikan ke Telegram">
+                                        <i class="fab fa-telegram-plane"></i>
+                                    </a>
+                                    <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ urlencode(url()->current()) }}&title={{ urlencode($news->newsTitle) }}"
+                                        class="social-icon social-linkedin" target="_blank" title="Bagikan ke LinkedIn">
+                                        <i class="fab fa-linkedin-in"></i>
+                                    </a>
+                                    <button onclick="copyLink()" class="social-icon social-copy" title="Salin tautan">
+                                        <i class="fas fa-link"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
                         <section class="mb-5">
                             <div class="fs-5 lh-lg text-justify">{!! $news->newsContent !!}</div>
                         </section>
                     </article>
 
-                    <!-- Sidebar on mobile -->
+                    <!-- Sidebar on Mobile Only -->
                     <div class="d-block d-lg-none mb-4">
                         <div class="card border-0 shadow-sm p-3">
                             <div class="d-flex align-items-center">
                                 <div class="ms-2">
                                     <h6 class="fw-bold mb-1">{{ $news->author->name }}</h6>
-                                    <span class="badge bg-primary">{{ $news->category->nameCategory }}</span>
+                                    <span class="badge bg-custom">{{ $news->category->nameCategory }}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Komentar -->
                     <section class="mt-4">
                         <div class="card shadow-sm border-0">
                             <div class="card-header bg-white">
@@ -83,7 +125,7 @@
                         <div class="d-flex align-items-center">
                             <div class="ms-2">
                                 <h6 class="fw-bold mb-1">{{ $news->author->name }}</h6>
-                                <span class="badge bg-primary">{{ $news->category->nameCategory }}</span>
+                                <span class="badge bg-custom">{{ $news->category->nameCategory }}</span>
                             </div>
                         </div>
                     </div>
@@ -137,4 +179,16 @@
             });
         });
     </script>
+
+    <script>
+        function copyLink() {
+            const url = "{{ url()->current() }}";
+            navigator.clipboard.writeText(url).then(() => {
+                alert('Tautan berhasil disalin!');
+            }).catch(err => {
+                alert('Gagal menyalin tautan.');
+            });
+        }
+    </script>
+
 @endsection

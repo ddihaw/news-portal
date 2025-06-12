@@ -1,7 +1,7 @@
 @extends('frontend.layout.main')
 @section('content')
     <section class="py-5">
-        <div class="container px-5">
+        <div class="container px-5 mt-5">
             <h3 class="mb-4">Hasil Pencarian untuk: <em>"{{ $query }}"</em></h3>
 
             @if ($results->count())

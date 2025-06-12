@@ -1,74 +1,72 @@
 @extends('frontend.layout.main')
 @section('content')
-    <section class="py-4"></section>
-    <div class="container px-3 px-md-5 mt-2 mb-5">
-        <h1>Edit Data Pengguna</h1>
-        @php
-            $user = Auth::user();
-            $role = $user->role;
-            $roles = ['admin', 'editor', 'author', 'user'];
-        @endphp
+    <section class="py-5">
+        <div class="container px-5 px-md-5 mt-5 mb-5">
+            <h1>Edit Data Pengguna</h1>
+            @php
+                $user = Auth::user();
+                $role = $user->role;
+                $roles = ['admin', 'editor', 'author', 'user'];
+            @endphp
 
-        @if (session()->has('pesan'))
-            <div class="alert alert-{{ session('pesan')[0] }}">
-                {{ session('pesan')[1] }}
-            </div>
-        @endif
+            @if (session()->has('pesan'))
+                <div class="alert alert-{{ session('pesan')[0] }}">
+                    {{ session('pesan')[1] }}
+                </div>
+            @endif
 
-        <div>
             <div>
-                <form action="{{ route('user.accountSave') }}" method="post" id="editForm"
-                    onsubmit="return handleSubmit(event)">
-                    @csrf
-                    <div class="mb-3">
-                        <label class="form-label">Nama</label>
-                        <input type="text" name="name" value="{{ $users->name }}"
-                            class="form-control @error('name') is-invalid @enderror" id="name"
-                            placeholder="Masukan nama pengguna">
-                        @error('name')
-                            <span style="color: red; font-weight: 600; font-size: 9pt;">{{$message}}</span>
-                        @enderror
-                    </div>
+                <div>
+                    <form action="{{ route('user.accountSave') }}" method="post" id="editForm"
+                        onsubmit="return handleSubmit(event)">
+                        @csrf
+                        <div class="mb-3">
+                            <label class="form-label">Nama</label>
+                            <input type="text" name="name" value="{{ $users->name }}"
+                                class="form-control @error('name') is-invalid @enderror" id="name"
+                                placeholder="Masukan nama pengguna">
+                            @error('name')
+                                <span style="color: red; font-weight: 600; font-size: 9pt;">{{$message}}</span>
+                            @enderror
+                        </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Email</label>
-                        <input type="email" name="email" value="{{ $users->email }}"
-                            class="form-control @error('email') is-invalid @enderror" id="email"
-                            placeholder="Masukan email pengguna">
-                        @error('email')
-                            <span style="color: red; font-weight: 600; font-size: 9pt;">{{$message}}</span>
-                        @enderror
-                    </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" name="email" value="{{ $users->email }}"
+                                class="form-control @error('email') is-invalid @enderror" id="email"
+                                placeholder="Masukan email pengguna">
+                            @error('email')
+                                <span style="color: red; font-weight: 600; font-size: 9pt;">{{$message}}</span>
+                            @enderror
+                        </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Level</label>
-                        @if ($role == 'admin')
-                            <select name="role" class="form-control @error('role') is-invalid @enderror" id="role">
-                                <option value="">Pilih Role</option>
-                                @foreach ($roles as $option)
-                                    <option value="{{ $option }}" {{ old('role', $users->role ?? '') == $option ? 'selected' : '' }}>
-                                        {{ ucfirst($option) }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        @else
-                            <select class="form-control" disabled>
-                                <option>{{ ucfirst($users->role) }}</option>
-                            </select>
-                            <input type="hidden" name="role" value="{{ $users->role }}">
-                        @endif
-                        @error('role')
-                            <span style="color: red; font-weight: 600; font-size: 9pt;">{{ $message }}</span>
-                        @enderror
-                    </div>
+                        <div class="mb-3">
+                            <label class="form-label">Level</label>
+                            @if ($role == 'admin')
+                                <select name="role" class="form-control @error('role') is-invalid @enderror" id="role">
+                                    <option value="">Pilih Role</option>
+                                    @foreach ($roles as $option)
+                                        <option value="{{ $option }}" {{ old('role', $users->role ?? '') == $option ? 'selected' : '' }}>{{ ucfirst($option) }}</option>
+                                    @endforeach
+                                </select>
+                            @else
+                                <select class="form-control" disabled>
+                                    <option>{{ ucfirst($users->role) }}</option>
+                                </select>
+                                <input type="hidden" name="role" value="{{ $users->role }}">
+                            @endif
+                            @error('role')
+                                <span style="color: red; font-weight: 600; font-size: 9pt;">{{ $message }}</span>
+                            @enderror
+                        </div>
 
-                    <input type="hidden" name="id" value="{{ $users->id }}">
-                    <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-                    <a href="{{ url()->previous() }}" class="btn btn-secondary">Kembali</a>
-                </form>
+                        <input type="hidden" name="id" value="{{ $users->id }}">
+                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                        <a href="{{ session('previous_url', route('landing.index')) }}" class="btn btn-secondary">Kembali</a>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
     </section>
 
     <!-- Logout Modal-->

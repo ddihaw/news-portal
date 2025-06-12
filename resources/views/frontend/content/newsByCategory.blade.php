@@ -2,7 +2,7 @@
 
 @section('content')
     <section class="py-5">
-        <div class="container px-5">
+        <div class="container px-5 mt-5">
             <h2 class="fw-bolder fs-5 mb-4">Berita Kategori: {{ $category->nameCategory }}</h2>
 
             @if ($news->count())
@@ -13,7 +13,7 @@
                                 <img class="card-img-top" src="{{ route('storage', $item->newsImage) }}"
                                     alt="{{ $item->newsTitle }}" />
                                 <div class="card-body p-4">
-                                    <div class="badge bg-primary bg-gradient rounded-pill mb-2">
+                                    <div class="badge bg-custom bg-gradient rounded-pill mb-2">
                                         {{ $item->category->nameCategory ?? 'Tanpa Kategori' }}
                                     </div>
                                     <a class="text-decoration-none link-dark stretched-link"

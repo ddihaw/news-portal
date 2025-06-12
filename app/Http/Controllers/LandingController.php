@@ -9,8 +9,10 @@ use App\Models\Comment;
 use App\Models\User;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Str;
 use Auth;
 use Hash;
+use ShareButtons;
 
 class LandingController extends Controller
 {
@@ -32,7 +34,12 @@ class LandingController extends Controller
             ->get()
             ->take(5);
 
-        return view('frontend.content.home', compact('menus', 'latestNews', 'popularNews', 'categories'));
+        $topCategories = Category::withCount('news')
+            ->orderByDesc('news_count')
+            ->take(8)
+            ->get();
+
+        return view('frontend.content.home', compact('menus', 'latestNews', 'popularNews', 'categories', 'topCategories'));
     }
 
     public function articlePage($id)
@@ -49,8 +56,17 @@ class LandingController extends Controller
             ->latest()
             ->get();
 
-        return view('frontend.content.article', compact('menus', 'news', 'comments'));
+        $shareComponent = ShareButtons::page(url()->current(), $news->newsTitle)
+            ->facebook()
+            ->twitter()
+            ->linkedin()
+            ->whatsapp()
+            ->copylink()
+            ->render();
+
+        return view('frontend.content.article', compact('menus', 'news', 'comments', 'shareComponent'));
     }
+
 
     public function detailPage($id)
     {
@@ -127,10 +143,15 @@ class LandingController extends Controller
         return $menus;
     }
 
-    public function account($id)
+    public function account(Request $request, $id)
     {
         $menus = $this->getMenu();
         $users = User::findOrFail($id);
+
+        if ($request->has('return')) {
+            session(['previous_url' => $request->query('return')]);
+        }
+
         return view('frontend.content.account', compact('users', 'menus'));
     }
 
@@ -156,9 +177,17 @@ class LandingController extends Controller
         }
     }
 
-    public function resetPassword()
+    public function resetPassword(Request $request)
     {
         $menus = $this->getMenu();
+
+        if ($request->has('return')) {
+            $return = $request->query('return');
+            if (!Str::contains($return, ['.jpg', 'storage', 'files'])) {
+                session(['previous_url' => $return]);
+            }
+        }
+
         return view('frontend.content.resetPassword', compact('menus'));
     }
 
