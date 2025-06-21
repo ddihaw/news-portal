@@ -168,7 +168,7 @@
         <div class="container px-4 text-center">
             <img src="{{ secure_asset('storage/images/banner-logo.png') }}" alt="Logo" style="height: 40px;"
                 class="mb-2">
-            <p class="small mb-0">&copy; MHN 2025. All rights reserved.</p>
+            <p class="small mb-0">&copy; PT. WINNICODE GARUDA TEKNOLOGI. All rights reserved.</p>
         </div>
     </footer>
 
